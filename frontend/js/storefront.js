@@ -59,16 +59,6 @@ if (document.getElementById("productsGrid")) {
   const configPanelStep2 = document.getElementById("configPanelStep2");
   const configPanelStep3 = document.getElementById("configPanelStep3");
 
-  // Spin the Wheel Elements
-  const spinWheelTrigger = document.getElementById("spinWheelTrigger");
-  const spinWheelModal = document.getElementById("spinWheelModal");
-  const closeSpinWheelModalBtn = document.getElementById("closeSpinWheelModalBtn");
-  const wheelCanvas = document.getElementById("wheelCanvas");
-  const spinWheelBtn = document.getElementById("spinWheelBtn");
-  const spinResultArea = document.getElementById("spinResultArea");
-  const spinResultText = document.getElementById("spinResultText");
-  const winCodeDisplay = document.getElementById("winCodeDisplay");
-
   // Invoice Elements
   const invoiceModal = document.getElementById("invoiceModal");
   const closeInvoiceModalBtn = document.getElementById("closeInvoiceModalBtn");
@@ -166,6 +156,29 @@ if (document.getElementById("productsGrid")) {
       if (phoneEl && settings) phoneEl.textContent = settings.whatsApp;
       if (addressEl && settings) addressEl.textContent = settings.address;
       if (hoursEl && settings) hoursEl.innerHTML = settings.hours.replace(/,/g, "<br>");
+      
+      if (settings) {
+        if (settings.themeColor) document.documentElement.style.setProperty("--primary-color", settings.themeColor);
+        if (settings.themeColor) document.documentElement.style.setProperty("--accent-gold", settings.themeColor);
+        
+        const heroTitle = document.getElementById("dynHeroTitle");
+        const heroSubtitle = document.getElementById("dynHeroSubtitle");
+        const heroDesc = document.getElementById("dynHeroDesc");
+        const aboutTitle = document.getElementById("dynAboutTitle");
+        const aboutDesc = document.getElementById("dynAboutDesc");
+        const footerAbout = document.getElementById("dynFooterAbout");
+        const fbUrl = document.getElementById("dynFacebookUrl");
+        const instaUrl = document.getElementById("dynInstagramUrl");
+        
+        if (heroTitle && settings.heroTitle) heroTitle.textContent = settings.heroTitle;
+        if (heroSubtitle && settings.heroSubtitle) heroSubtitle.textContent = settings.heroSubtitle;
+        if (heroDesc && settings.heroDesc) heroDesc.textContent = settings.heroDesc;
+        if (aboutTitle && settings.aboutTitle) aboutTitle.textContent = settings.aboutTitle;
+        if (aboutDesc && settings.aboutDesc) aboutDesc.textContent = settings.aboutDesc;
+        if (footerAbout && settings.footerAbout) footerAbout.textContent = settings.footerAbout;
+        if (fbUrl && settings.facebookUrl) fbUrl.href = settings.facebookUrl;
+        if (instaUrl && settings.instagramUrl) instaUrl.href = settings.instagramUrl;
+      }
     } catch (err) {
       console.error("Failed to load contact info:", err);
     }
@@ -878,7 +891,6 @@ if (document.getElementById("productsGrid")) {
       quickViewModal.classList.remove("open");
       configuratorModal.classList.remove("open");
       checkoutModal.classList.remove("open");
-      spinWheelModal.classList.remove("open");
       invoiceModal.classList.remove("open");
       overlayBackdrop.classList.remove("open");
     });
@@ -1166,87 +1178,6 @@ if (document.getElementById("productsGrid")) {
       console.error(err);
       showToast("Failed to submit inquiry. Try again.", "error");
     }
-  });
-
-  // --- SPIN THE WHEEL GAME LOGIC ---
-  let isSpinning = false;
-
-  function addPromoCodeToDB(code, discount) {
-    // Spin wheel promo codes are already pre-seeded in the database
-  }
-
-  spinWheelTrigger.addEventListener("click", () => {
-    spinWheelModal.classList.add("open");
-    overlayBackdrop.classList.add("open");
-    
-    if (sessionStorage.getItem("anitas_bakers_spun") === "true") {
-      spinWheelBtn.disabled = true;
-      spinWheelBtn.textContent = "Already Spun!";
-    }
-  });
-
-  closeSpinWheelModalBtn.addEventListener("click", () => {
-    spinWheelModal.classList.remove("open");
-    overlayBackdrop.classList.remove("open");
-  });
-
-  spinWheelBtn.addEventListener("click", () => {
-    if (isSpinning) return;
-    isSpinning = true;
-
-    // Define segments
-    const segments = [
-      { text: "10% Off", code: "ANITA10", discount: 10 },
-      { text: "Oops! Try again next time.", code: null },
-      { text: "15% Off", code: "WELCOME15", discount: 15 },
-      { text: "Free Gift on order!", code: "FREEGIFT", discount: 0 },
-      { text: "5% Off", code: "SPIN5", discount: 5 },
-      { text: "Free Delivery!", code: "FREEDEL", discount: 0 },
-      { text: "20% Off Super Discount!", code: "ANITA20", discount: 20 },
-      { text: "No Luck today!", code: null }
-    ];
-
-    // Pick target segment index
-    const targetIndex = Math.floor(Math.random() * segments.length);
-    
-    const degrees = 360 * 5 + (360 - (targetIndex * 45 + 22.5));
-    
-    const wheelCanvasWrap = document.querySelector(".wheel-canvas-wrap");
-    if (wheelCanvasWrap) {
-      wheelCanvasWrap.style.transform = `rotate(${degrees}deg)`;
-    }
-
-    spinWheelBtn.disabled = true;
-    spinWheelBtn.textContent = "Spinning...";
-
-    setTimeout(() => {
-      isSpinning = false;
-      const wonSegment = segments[targetIndex];
-      
-      if (wonSegment.code) {
-        addPromoCodeToDB(wonSegment.code, wonSegment.discount);
-        
-        appliedPromo = { code: wonSegment.code, discount: wonSegment.discount };
-        promoCodeInput.value = wonSegment.code;
-        promoStatusMessage.textContent = `Promo Code ${wonSegment.code} (${wonSegment.discount}% Off) auto-applied from Spin Wheel!`;
-        promoStatusMessage.className = "promo-status-message success";
-        updateCartUI();
-        
-        navigator.clipboard.writeText(wonSegment.code).catch(err => console.log(err));
-        
-        winCodeDisplay.textContent = wonSegment.code;
-        spinResultText.innerHTML = `You won <strong>${wonSegment.text}</strong> with code: <strong style="color: var(--accent-gold); font-size: 1.25rem; font-weight: 800; letter-spacing: 1px;">${wonSegment.code}</strong>`;
-        spinResultArea.style.display = "block";
-        showToast(`Congratulations! You won ${wonSegment.code}`);
-      } else {
-        spinResultText.innerHTML = `Ah! <strong>${wonSegment.text}</strong>`;
-        spinResultArea.style.display = "block";
-        showToast("Better luck next time!", "error");
-      }
-      
-      spinWheelBtn.textContent = "Spun!";
-      sessionStorage.setItem("anitas_bakers_spun", "true");
-    }, 6000);
   });
 
   // --- ORDER TRACKER GAME LOGIC ---

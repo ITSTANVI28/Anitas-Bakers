@@ -20,7 +20,7 @@ if (empty($name) || empty($category) || $price <= 0) {
 
 try {
     $db = Database::getInstance()->getConnection();
-    $stmt = $db->prepare("UPDATE products SET name = ?, category = ?, price = ?, description = ?, image_url = ?, is_customisable = ?, in_stock = ? WHERE id = ?");
+    $stmt = $db->prepare("UPDATE products SET name = ?, category = ?, price = ?, `desc` = ?, image = ?, isCustomisable = ?, inStock = ? WHERE id = ?");
     $stmt->execute([$name, $category, $price, $desc, $image, $isCustomisable, $inStock, $productId]);
     
     successResponse(null, 'Product updated successfully');

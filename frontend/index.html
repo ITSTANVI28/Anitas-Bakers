@@ -75,9 +75,9 @@
   <section id="home" class="hero">
     <div class="container flex-between" style="width: 100%; height: 100%;">
       <div class="hero-content">
-        <span class="hero-subtitle">Freshly Baked Everyday</span>
-        <h1 class="hero-title">Baking Joy Into Every Single Slice</h1>
-        <p class="hero-desc">Experience handcrafted sweetness made with the finest organic ingredients. From custom birthday cakes to delicate pastries, we bake stories worth sharing.</p>
+        <span class="hero-subtitle" id="dynHeroSubtitle">Freshly Baked Everyday</span>
+        <h1 class="hero-title" id="dynHeroTitle">Baking Joy Into Every Single Slice</h1>
+        <p class="hero-desc" id="dynHeroDesc">Experience handcrafted sweetness made with the finest organic ingredients. From custom birthday cakes to delicate pastries, we bake stories worth sharing.</p>
         <div class="hero-buttons">
           <a href="#menu" class="btn btn-primary">Browse Menu</a>
           <a href="#custom-inquiry" class="btn btn-secondary">Custom Design</a>
@@ -276,9 +276,8 @@
         </div>
         <div class="about-text">
           <span class="section-subtitle">Anita's Bakers</span>
-          <h2>Crafted With Love, Baked to Perfection</h2>
-          <p>Established in 2012, Anita's Bakers started as a small home bakery with a passion for bringing families together over delicious treats. Today, we continue that tradition of love, quality, and craftsmanship in every pastry we serve.</p>
-          <p>We believe baking is an art. That is why we refuse to use pre-mixes or artificial preservatives. Each item is measured, mixed, and decorated by hand, ensuring that your celebrations taste just as memorable as they look.</p>
+          <h2 id="dynAboutTitle">Crafted With Love, Baked to Perfection</h2>
+          <p id="dynAboutDesc">Established in 2012, Anita's Bakers started as a small home bakery with a passion for bringing families together over delicious treats. Today, we continue that tradition of love, quality, and craftsmanship in every pastry we serve. We believe baking is an art. That is why we refuse to use pre-mixes or artificial preservatives. Each item is measured, mixed, and decorated by hand, ensuring that your celebrations taste just as memorable as they look.</p>
           <a href="#menu" class="btn btn-primary" style="margin-top: 16px;">Order Now</a>
         </div>
       </div>
@@ -398,10 +397,10 @@
       <div class="footer-grid">
         <div class="footer-brand">
           <h3>Anita's Bakers</h3>
-          <p>Delighting taste buds with premium organic pastries and customized celebration cakes since 2012.</p>
+          <p id="dynFooterAbout">Delighting taste buds with premium organic pastries and customized celebration cakes since 2012.</p>
           <div class="footer-socials">
-            <a href="#" class="social-link" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
-            <a href="#" class="social-link" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+            <a href="#" class="social-link" id="dynFacebookUrl" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
+            <a href="#" class="social-link" id="dynInstagramUrl" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
           </div>
         </div>
         <div class="footer-links">
@@ -700,73 +699,6 @@
     </div>
   </div>
 
-  <!-- --- SPIN THE WHEEL TRIGGER BUTTON --- -->
-  <button id="spinWheelTrigger" class="spin-wheel-trigger-btn">
-    <div class="wheel-icon-inner">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="2" x2="12" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 12L19.07 4.93"></path><path d="M12 12L4.93 19.07"></path><path d="M12 12L4.93 4.93"></path><path d="M12 12L19.07 19.07"></path></svg>
-    </div>
-    <span>Spin & Win!</span>
-  </button>
-
-  <!-- --- SPIN THE WHEEL MODAL --- -->
-  <div id="spinWheelModal" class="modal-wrapper">
-    <div class="modal-container" style="max-width: 450px;">
-      <div class="modal-header">
-        <h2>Spin the Magic Wheel</h2>
-        <button id="closeSpinWheelModalBtn" class="btn-close-cart" aria-label="Close Spin the Wheel Modal">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </button>
-      </div>
-      <div class="modal-body text-center" style="padding: 24px 32px 32px 32px;">
-        <p style="color: var(--text-light-cocoa); font-weight: 500; margin-bottom: 24px;">Spin the wheel to win a special coupon code! Auto-applies to your cart.</p>
-        
-        <!-- Canvas/SVG Wheel Container -->
-        <div class="wheel-spinner-container">
-          <div class="wheel-pointer">▼</div>
-          <div class="wheel-canvas-wrap">
-            <svg id="wheelCanvas" viewBox="0 0 300 300">
-              <circle cx="150" cy="150" r="140" fill="var(--bg-white)" stroke="var(--accent-gold)" stroke-width="6"/>
-              
-              <!-- Segment Path slices (8 Slices, 45 deg each) -->
-              <path d="M 150,150 L 150,10 A 140 140 0 0 1 249,51 Z" fill="var(--accent-pink)"/>
-              <path d="M 150,150 L 249,51 A 140 140 0 0 1 290,150 Z" fill="var(--bg-cream)"/>
-              <path d="M 150,150 L 290,150 A 140 140 0 0 1 249,249 Z" fill="var(--accent-gold)"/>
-              <path d="M 150,150 L 249,249 A 140 140 0 0 1 150,290 Z" fill="var(--text-light-cocoa)"/>
-              <path d="M 150,150 L 150,290 A 140 140 0 0 1 51,249 Z" fill="var(--accent-pink)"/>
-              <path d="M 150,150 L 51,249 A 140 140 0 0 1 10,150 Z" fill="var(--bg-cream)"/>
-              <path d="M 150,150 L 10,150 A 140 140 0 0 1 51,51 Z" fill="var(--accent-pink-dark)"/>
-              <path d="M 150,150 L 51,51 A 140 140 0 0 1 150,10 Z" fill="var(--text-cocoa)"/>
-              
-              <!-- Slices Text -->
-              <g fill="var(--text-cocoa)" font-weight="700" font-size="11">
-                <text transform="translate(195,65) rotate(22.5)">10% Off</text>
-                <text transform="translate(235,115) rotate(67.5)">Oops!</text>
-                <text transform="translate(230,195) rotate(112.5)" fill="white">15% Off</text>
-                <text transform="translate(170,240) rotate(157.5)" fill="white">Free Gift</text>
-                <text transform="translate(105,245) rotate(202.5)">5% Off</text>
-                <text transform="translate(45,190) rotate(247.5)">Free Del</text>
-                <text transform="translate(45,105) rotate(292.5)" fill="white">20% Off</text>
-                <text transform="translate(100,55) rotate(337.5)" fill="white">No Luck</text>
-              </g>
-              
-              <!-- Inner Cap Pin -->
-              <circle cx="150" cy="150" r="22" fill="var(--bg-white)" stroke="var(--accent-gold)" stroke-width="4"/>
-              <circle cx="150" cy="150" r="10" fill="var(--accent-gold)"/>
-            </svg>
-          </div>
-        </div>
-        
-        <button id="spinWheelBtn" class="btn btn-primary" style="width: 100%; margin-top: 24px; padding: 14px;">Spin the Wheel!</button>
-        
-        <!-- Result Reveal Area -->
-        <div id="spinResultArea" style="display: none; margin-top: 24px; padding: 20px; background: rgba(90, 143, 118, 0.1); border: 1px dashed var(--success-green); border-radius: var(--border-radius-md);">
-          <h4 style="color: var(--success-green); font-size: 1.25rem; margin-bottom: 8px;">Congratulations! 🎉</h4>
-          <p id="spinResultText" style="font-weight: 600; margin-bottom: 12px;">You won 15% off with code: <span id="winCodeDisplay" style="color: var(--accent-gold); font-size: 1.25rem; font-weight: 800; letter-spacing: 1px;">ANITA15</span></p>
-          <span style="font-size: 0.8rem; color: var(--text-light-cocoa);">Code has been auto-copied and applied to your checkout cart!</span>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- --- PRINTABLE INVOICE MODAL --- -->
   <div id="invoiceModal" class="modal-wrapper">

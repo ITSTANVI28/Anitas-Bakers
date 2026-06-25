@@ -14,8 +14,6 @@ try {
     $products = $stmt->fetchAll();
     
     // Map database fields to frontend fields
-    // DB: is_customisable -> TINYINT, in_stock -> TINYINT
-    // Frontend expects: isCustomisable -> boolean, inStock -> boolean
     $formattedProducts = [];
     foreach ($products as $p) {
         $formattedProducts[] = [
@@ -23,10 +21,10 @@ try {
             'name' => $p['name'],
             'category' => $p['category'],
             'price' => (float)$p['price'],
-            'desc' => $p['description'], // Frontend expects desc, DB is description
-            'image' => $p['image_url'],  // Frontend expects image, DB is image_url
-            'isCustomisable' => (bool)$p['is_customisable'],
-            'inStock' => (bool)$p['in_stock']
+            'desc' => $p['desc'],
+            'image' => $p['image'],
+            'isCustomisable' => (bool)$p['isCustomisable'],
+            'inStock' => (bool)$p['inStock']
         ];
     }
     

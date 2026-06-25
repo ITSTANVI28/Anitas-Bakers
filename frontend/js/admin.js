@@ -202,6 +202,28 @@ if (document.getElementById("adminLockScreen")) {
       if (setHours) setHours.value = settings.hours;
       if (setEnableAnnounce) setEnableAnnounce.checked = settings.showAnnouncement !== false;
       if (setAnnounceText) setAnnounceText.value = settings.announcementText || "";
+      
+      // Website Content Fields
+      const setThemeColor = document.getElementById("setThemeColor");
+      const setHeroTitle = document.getElementById("setHeroTitle");
+      const setHeroSubtitle = document.getElementById("setHeroSubtitle");
+      const setHeroDesc = document.getElementById("setHeroDesc");
+      const setAboutTitle = document.getElementById("setAboutTitle");
+      const setAboutDesc = document.getElementById("setAboutDesc");
+      const setFooterAbout = document.getElementById("setFooterAbout");
+      const setFacebookUrl = document.getElementById("setFacebookUrl");
+      const setInstagramUrl = document.getElementById("setInstagramUrl");
+
+      if (setThemeColor) setThemeColor.value = settings.themeColor || "#C5A059";
+      if (setHeroTitle) setHeroTitle.value = settings.heroTitle || "";
+      if (setHeroSubtitle) setHeroSubtitle.value = settings.heroSubtitle || "";
+      if (setHeroDesc) setHeroDesc.value = settings.heroDesc || "";
+      if (setAboutTitle) setAboutTitle.value = settings.aboutTitle || "";
+      if (setAboutDesc) setAboutDesc.value = settings.aboutDesc || "";
+      if (setFooterAbout) setFooterAbout.value = settings.footerAbout || "";
+      if (setFacebookUrl) setFacebookUrl.value = settings.facebookUrl || "";
+      if (setInstagramUrl) setInstagramUrl.value = settings.instagramUrl || "";
+
       if (setPasscode) setPasscode.value = "";
     } catch (err) {
       console.error(err);
@@ -220,6 +242,17 @@ if (document.getElementById("adminLockScreen")) {
       settings.hours = setHours.value.trim();
       settings.showAnnouncement = setEnableAnnounce.checked;
       settings.announcementText = setAnnounceText.value.trim();
+
+      // Website Content Fields
+      settings.themeColor = document.getElementById("setThemeColor")?.value || "";
+      settings.heroTitle = document.getElementById("setHeroTitle")?.value.trim() || "";
+      settings.heroSubtitle = document.getElementById("setHeroSubtitle")?.value.trim() || "";
+      settings.heroDesc = document.getElementById("setHeroDesc")?.value.trim() || "";
+      settings.aboutTitle = document.getElementById("setAboutTitle")?.value.trim() || "";
+      settings.aboutDesc = document.getElementById("setAboutDesc")?.value.trim() || "";
+      settings.footerAbout = document.getElementById("setFooterAbout")?.value.trim() || "";
+      settings.facebookUrl = document.getElementById("setFacebookUrl")?.value.trim() || "";
+      settings.instagramUrl = document.getElementById("setInstagramUrl")?.value.trim() || "";
 
       if (setPasscode.value.trim()) {
         settings.passcode = setPasscode.value.trim();

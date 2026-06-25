@@ -14,7 +14,16 @@ try {
         'address' => $settings['address'],
         'hours' => $settings['hours'],
         'showAnnouncement' => (bool)$settings['show_announcement'],
-        'announcementText' => $settings['announcement_text']
+        'announcementText' => $settings['announcement_text'],
+        'heroTitle' => $settings['hero_title'],
+        'heroSubtitle' => $settings['hero_subtitle'],
+        'heroDesc' => $settings['hero_desc'],
+        'aboutTitle' => $settings['about_title'],
+        'aboutDesc' => $settings['about_desc'],
+        'footerAbout' => $settings['footer_about'],
+        'facebookUrl' => $settings['facebook_url'],
+        'instagramUrl' => $settings['instagram_url'],
+        'themeColor' => $settings['theme_color']
     ];
     
     successResponse($formattedSettings);

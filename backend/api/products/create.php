@@ -16,7 +16,7 @@ if (empty($name) || empty($category) || $price <= 0) {
 
 try {
     $db = Database::getInstance()->getConnection();
-    $stmt = $db->prepare("INSERT INTO products (name, category, price, description, image_url, is_customisable, in_stock) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $db->prepare("INSERT INTO products (name, category, price, `desc`, image, isCustomisable, inStock) VALUES (?, ?, ?, ?, ?, ?, ?)");
     $stmt->execute([$name, $category, $price, $desc, $image, $isCustomisable, $inStock]);
     
     $newId = $db->lastInsertId();
