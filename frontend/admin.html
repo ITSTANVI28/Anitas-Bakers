@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Anita's Bakers</title>
+  <link rel="stylesheet" href="css/shared.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+
+  <!-- --- TOAST CONTAINER FOR NOTIFICATIONS --- -->
+  <div id="adminToast" class="toast-container">
+    <span id="adminToastMessage">Action completed successfully!</span>
+  </div>
+
+  <!-- --- ADMIN PASSCODE LOCK SCREEN --- -->
+  <div id="adminLockScreen" class="admin-lock-screen">
+    <div class="lock-container">
+      <div class="lock-icon-wrapper">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+      </div>
+      <h2>Administration Login</h2>
+      <p>Please enter your passcode to access the control panel.</p>
+      <form id="lockScreenForm" class="passcode-form">
+        <input type="password" id="adminPasscodeInput" class="form-control passcode-input" placeholder="••••" required maxlength="8">
+        <button type="submit" class="btn btn-primary">Unlock Dashboard</button>
+      </form>
+      <p id="lockScreenError" style="color: var(--danger-red); margin-top: 12px; display: none; font-weight: 600;">Incorrect passcode. Please try again.</p>
+    </div>
+  </div>
+
+  <!-- --- MAIN ADMIN LAYOUT --- -->
+  <div class="admin-layout">
+    
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-brand">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        <span>Anita's Admin</span>
+      </div>
+      <nav class="admin-nav">
+        <div class="admin-nav-item active" data-target="dashboardSection">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          <span>Dashboard</span>
+        </div>
+        <div class="admin-nav-item" data-target="ordersSection">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+          <span>Orders Pipeline</span>
+        </div>
+        <div class="admin-nav-item" data-target="productsSection">
+          <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+          <span>Products</span>
+        </div>
+        <div class="admin-nav-item" data-target="inquiriesSection">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          <span>Inquiries</span>
+        </div>
+        <div class="admin-nav-item" data-target="reviewsSection">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          <span>Reviews Mod</span>
+        </div>
+        <div class="admin-nav-item" data-target="promosSection">
+          <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+          <span>Promo Codes</span>
+        </div>
+        <div class="admin-nav-item" data-target="settingsSection">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <span>Settings</span>
+        </div>
+      </nav>
+      <div class="admin-logout">
+        <button id="adminLogoutBtn" class="btn btn-secondary" style="width: 100%; border-color: rgba(250,246,240,0.3); color: var(--bg-cream);">Logout</button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="admin-main">
+
+      <!-- --- SECTION 1: DASHBOARD --- -->
+      <section id="dashboardSection" class="admin-section active">
+        <div class="admin-header">
+          <h1>Dashboard Overview</h1>
+          <p style="color: var(--text-light-cocoa); font-weight: 500;">Welcome back, Administrator</p>
+        </div>
+
+        <!-- Counters Grid -->
+        <div class="admin-stats-grid">
+          <div class="stat-card">
+            <div class="stat-info">
+              <p>Total Products</p>
+              <div id="statTotalProducts" class="stat-value">0</div>
+            </div>
+            <div class="stat-icon">
+              <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-info">
+              <p>Out Of Stock</p>
+              <div id="statOutOfStock" class="stat-value" style="color: var(--danger-red);">0</div>
+            </div>
+            <div class="stat-icon" style="background: rgba(211,107,92,0.15);">
+              <svg viewBox="0 0 24 24" style="stroke: var(--danger-red);"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path></svg>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-info">
+              <p>Design Inquiries</p>
+              <div id="statTotalInquiries" class="stat-value">0</div>
+            </div>
+            <div class="stat-icon">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-info">
+              <p>Guest Reviews</p>
+              <div id="statTotalReviews" class="stat-value">0</div>
+            </div>
+            <div class="stat-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- SVG Analytics Charts -->
+        <div class="admin-charts-grid">
+          <!-- Sales SVG Trend Chart -->
+          <div class="chart-card">
+            <h3>Monthly Sales (Order Analytics)</h3>
+            <div class="chart-container">
+              <svg viewBox="0 0 500 250">
+                <!-- Grid Lines -->
+                <line x1="40" y1="20" x2="480" y2="20" stroke="var(--border-color)" stroke-width="1"/>
+                <line x1="40" y1="80" x2="480" y2="80" stroke="var(--border-color)" stroke-width="1"/>
+                <line x1="40" y1="140" x2="480" y2="140" stroke="var(--border-color)" stroke-width="1"/>
+                <line x1="40" y1="200" x2="480" y2="200" stroke="var(--border-color)" stroke-width="2"/>
+                
+                <!-- Y-Axis Labels -->
+                <text x="30" y="25" fill="var(--text-light-cocoa)" font-size="10" text-anchor="end">15k</text>
+                <text x="30" y="85" fill="var(--text-light-cocoa)" font-size="10" text-anchor="end">10k</text>
+                <text x="30" y="145" fill="var(--text-light-cocoa)" font-size="10" text-anchor="end">5k</text>
+                <text x="30" y="205" fill="var(--text-light-cocoa)" font-size="10" text-anchor="end">0</text>
+                
+                <!-- Chart Line/Path (Dynamic mock curves) -->
+                <path d="M 60,180 Q 130,120 200,150 T 340,70 T 460,50" fill="none" stroke="var(--accent-gold)" stroke-width="4" stroke-linecap="round"/>
+                
+                <!-- Chart Dots -->
+                <circle cx="60" cy="180" r="5" fill="var(--text-cocoa)" stroke="var(--accent-gold)" stroke-width="2"/>
+                <circle cx="200" cy="150" r="5" fill="var(--text-cocoa)" stroke="var(--accent-gold)" stroke-width="2"/>
+                <circle cx="340" cy="70" r="5" fill="var(--text-cocoa)" stroke="var(--accent-gold)" stroke-width="2"/>
+                <circle cx="460" cy="50" r="5" fill="var(--text-cocoa)" stroke="var(--accent-gold)" stroke-width="2"/>
+                
+                <!-- X-Axis Labels -->
+                <text x="60" y="225" fill="var(--text-light-cocoa)" font-size="11" text-anchor="middle">Mar</text>
+                <text x="200" y="225" fill="var(--text-light-cocoa)" font-size="11" text-anchor="middle">Apr</text>
+                <text x="340" y="225" fill="var(--text-light-cocoa)" font-size="11" text-anchor="middle">May</text>
+                <text x="460" y="225" fill="var(--text-light-cocoa)" font-size="11" text-anchor="middle">Jun (Current)</text>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Category Doughnut Chart -->
+          <div class="chart-card">
+            <h3>Popular Categories</h3>
+            <div class="chart-container">
+              <svg viewBox="0 0 200 200">
+                <!-- SVG donut segments -->
+                <circle cx="100" cy="100" r="70" fill="transparent" stroke="var(--bg-cream)" stroke-width="25"/>
+                <circle cx="100" cy="100" r="70" fill="transparent" stroke="var(--accent-gold)" stroke-width="25" stroke-dasharray="198 440" stroke-dashoffset="0"/>
+                <circle cx="100" cy="100" r="70" fill="transparent" stroke="var(--accent-pink-dark)" stroke-width="25" stroke-dasharray="132 440" stroke-dashoffset="-198"/>
+                <circle cx="100" cy="100" r="70" fill="transparent" stroke="var(--text-cocoa)" stroke-width="25" stroke-dasharray="110 440" stroke-dashoffset="-330"/>
+                
+                <circle cx="100" cy="100" r="50" fill="var(--bg-white)"/>
+                <text x="100" y="105" text-anchor="middle" fill="var(--text-cocoa)" font-size="13" font-weight="700">Orders</text>
+              </svg>
+            </div>
+            <!-- Legend -->
+            <div style="display: flex; justify-content: center; gap: 16px; font-size: 0.8rem; margin-top: 10px;">
+              <span style="display: flex; align-items: center; gap: 5px;"><span style="display:inline-block; width:12px; height:12px; background:var(--accent-gold); border-radius:50%;"></span> Cakes</span>
+              <span style="display: flex; align-items: center; gap: 5px;"><span style="display:inline-block; width:12px; height:12px; background:var(--accent-pink-dark); border-radius:50%;"></span> Pastries</span>
+              <span style="display: flex; align-items: center; gap: 5px;"><span style="display:inline-block; width:12px; height:12px; background:var(--text-cocoa); border-radius:50%;"></span> Others</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- --- SECTION 2: ORDERS PIPELINE --- -->
+      <section id="ordersSection" class="admin-section">
+        <div class="admin-header">
+          <h1>Orders Pipeline</h1>
+          <div class="live-simulator-indicator" style="background: rgba(197, 160, 89, 0.1); border: 1px solid var(--accent-gold); padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; font-weight: 600; color: var(--text-cocoa);">
+            <span style="display:inline-block; width:10px; height:10px; background:var(--success-green); border-radius:50%; animation: pulseBg 1.5s infinite alternate;"></span>
+            <span>Live Simulator: <span id="liveVisitorsCount" style="color: var(--accent-gold);">4</span> shoppers browsing</span>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-controls">
+            <div class="search-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input type="text" id="orderSearchInput" placeholder="Search orders by customer or Reference ID...">
+            </div>
+          </div>
+          
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Ref ID</th>
+                  <th>Customer</th>
+                  <th>Order Items (Customization Notes)</th>
+                  <th>Amount</th>
+                  <th>Fulfillment Details</th>
+                  <th>Status</th>
+                  <th>Pipeline Action</th>
+                  <th>Print / Cancel</th>
+                </tr>
+              </thead>
+              <tbody id="adminOrdersTableBody">
+                <!-- Orders will render here dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- --- SECTION 3: PRODUCTS MANAGER --- -->
+      <section id="productsSection" class="admin-section">
+        <div class="admin-header">
+          <h1>Product Catalog</h1>
+          <button id="openAddProductModalBtn" class="btn btn-primary">+ Add New Product</button>
+        </div>
+
+        <div class="table-card">
+          <div class="table-controls">
+            <div class="search-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input type="text" id="productSearchInput" placeholder="Search products by name or category...">
+            </div>
+          </div>
+          
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Name</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Stock Status</th>
+                  <th>Customisable</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminProductsTableBody">
+                <!-- Products list generated via script -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- --- SECTION 3: INQUIRIES MANAGER --- -->
+      <section id="inquiriesSection" class="admin-section">
+        <div class="admin-header">
+          <h1>Custom Design Inquiries</h1>
+        </div>
+
+        <div class="table-card">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Phone</th>
+                  <th>Tiers & Shape</th>
+                  <th>Theme details</th>
+                  <th>Sketch/Photo</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminInquiriesTableBody">
+                <!-- Custom inquiries list generated via script -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- --- SECTION 4: REVIEWS MODERATION --- -->
+      <section id="reviewsSection" class="admin-section">
+        <div class="admin-header">
+          <h1>Reviews Moderation</h1>
+        </div>
+
+        <div class="table-card">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Author</th>
+                  <th>Occasion/Item</th>
+                  <th>Stars</th>
+                  <th>Review Feedback</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminReviewsTableBody">
+                <!-- Reviews list will render here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- --- SECTION 5: PROMO CODES --- -->
+      <section id="promosSection" class="admin-section">
+        <div class="admin-header">
+          <h1>Promo Codes Manager</h1>
+          <button id="openAddPromoModalBtn" class="btn btn-primary">+ Create Promo Code</button>
+        </div>
+
+        <div class="table-card">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Promo Code</th>
+                  <th>Discount Percentage</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminPromosTableBody">
+                <!-- Promo Codes generated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- --- SECTION 6: SETTINGS --- -->
+      <section id="settingsSection" class="admin-section">
+        <div class="admin-header">
+          <h1>Bakery Settings</h1>
+        </div>
+
+        <div class="table-card" style="padding: 40px; max-width: 700px;">
+          <form id="bakerySettingsForm">
+            <div class="form-group">
+              <label for="setWhatsApp">WhatsApp Number for Orders <span>*</span></label>
+              <input type="text" id="setWhatsApp" class="form-control" required placeholder="e.g. 919876543210 (Include country code)">
+            </div>
+            <div class="form-group">
+              <label for="setDeliveryFee">Default Delivery Charge (₹) <span>*</span></label>
+              <input type="number" id="setDeliveryFee" class="form-control" required min="0">
+            </div>
+            <div class="form-group">
+              <label for="setAddress">Bakery Address <span>*</span></label>
+              <textarea id="setAddress" class="form-control" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="setHours">Operating Hours</label>
+              <input type="text" id="setHours" class="form-control" placeholder="e.g. Mon-Sat: 9am-9pm">
+            </div>
+            
+            <!-- announcement ribbon toggle settings -->
+            <div class="form-group" style="border-top: 1px solid var(--border-color); padding-top: 20px;">
+              <label class="toggle-switch-container">
+                <input type="checkbox" id="setEnableAnnounce" class="toggle-checkbox">
+                <span class="toggle-switch"></span>
+                <span>Enable Top Announcement Banner Ribbon</span>
+              </label>
+            </div>
+            <div class="form-group">
+              <label for="setAnnounceText">Announcement Banner Text</label>
+              <input type="text" id="setAnnounceText" class="form-control" placeholder="e.g. Special Holiday Promo Offer! Use Code ANITA10">
+            </div>
+
+            <div class="form-group" style="border-top: 1px solid var(--border-color); padding-top: 24px; margin-top: 24px;">
+              <label for="setPasscode">Change Admin Passcode</label>
+              <input type="password" id="setPasscode" class="form-control" placeholder="Enter new numerical passcode" maxlength="8">
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-top: 16px;">Save Settings</button>
+          </form>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- --- BACKDROP OVERLAY --- -->
+  <div id="adminOverlay" class="overlay-backdrop"></div>
+
+  <!-- --- VIEW/PRINT ORDER INVOICE MODAL (ADMIN) --- -->
+  <div id="adminInvoiceModal" class="modal-wrapper">
+    <div class="modal-container" style="max-width: 500px;">
+      <div class="modal-header no-print">
+        <h2>Order Invoice Slip</h2>
+        <button id="closeAdminInvModalBtn" class="btn-close-cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body printable-invoice-body" id="adminPrintInvoiceArea">
+        <!-- Re-populated dynamically by app.js -->
+      </div>
+      <div class="modal-footer no-print">
+        <button id="adminPrintInvBtn" class="btn btn-primary" style="display: flex; align-items: center; gap: 6px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          Print Slip
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- --- VIEW LARGE INQUIRY IMAGE MODAL --- -->
+  <div id="inquiryImageModal" class="modal-wrapper">
+    <div class="modal-container" style="max-width:450px;">
+      <div class="modal-header">
+        <h2>Reference Sketch</h2>
+        <button id="closeInqImageModalBtn" class="btn-close-cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <img id="inqLargeImg" src="" alt="Sketch Reference" style="max-width:100%; border-radius: var(--border-radius-md); box-shadow:0 4px 15px rgba(0,0,0,0.1);">
+      </div>
+    </div>
+  </div>
+
+  <!-- --- ADD/EDIT PRODUCT MODAL --- -->
+  <div id="productModal" class="modal-wrapper">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2 id="productModalTitle">Add New Product</h2>
+        <button id="closeProductModalBtn" class="btn-close-cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="productForm">
+          <input type="hidden" id="editProductId">
+          
+          <div class="form-group">
+            <label for="prodName">Product Name <span>*</span></label>
+            <input type="text" id="prodName" class="form-control" required placeholder="e.g. Red Velvet Dream Cake">
+          </div>
+          
+          <div class="config-options-grid">
+            <div class="form-group">
+              <label for="prodCategory">Category <span>*</span></label>
+              <select id="prodCategory" class="form-control" required>
+                <option value="">Select Category</option>
+                <option value="Cakes">Cakes</option>
+                <option value="Pastries">Pastries</option>
+                <option value="Cookies">Cookies</option>
+                <option value="Breads">Breads</option>
+                <option value="Special">Special Items</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="prodPrice">Base Price (₹) <span>*</span></label>
+              <input type="number" id="prodPrice" class="form-control" required min="0" placeholder="e.g. 950">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="prodDesc">Description <span>*</span></label>
+            <textarea id="prodDesc" class="form-control" rows="3" required placeholder="Describe ingredients, texture, flavors..."></textarea>
+          </div>
+
+          <!-- Base64 Image Upload / URL Selector -->
+          <div class="form-group">
+            <label>Product Image <span>*</span></label>
+            <div class="image-upload-wrapper" id="imageUploadArea">
+              <input type="file" id="prodImageFile" accept="image/*">
+              <div class="upload-placeholder" id="uploadPlaceholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                <p>Click to Upload Image File</p>
+                <span style="font-size:0.75rem; color:var(--text-light-cocoa);">Or it will fallback to a gorgeous generic cake image</span>
+              </div>
+              <div class="preview-container" id="uploadPreviewContainer">
+                <img src="" alt="Preview" class="preview-img" id="uploadPreviewImg">
+                <button type="button" class="btn-remove-preview" id="btnRemovePreview">Change Image</button>
+              </div>
+            </div>
+            <input type="hidden" id="prodImageBase64">
+          </div>
+
+          <div class="config-options-grid" style="margin-top: 15px;">
+            <div class="form-group">
+              <label class="toggle-switch-container">
+                <input type="checkbox" id="prodIsCustomisable" class="toggle-checkbox" checked>
+                <span class="toggle-switch"></span>
+                <span>Enable Custom Cake Builder</span>
+              </label>
+            </div>
+            <div class="form-group">
+              <label class="toggle-switch-container">
+                <input type="checkbox" id="prodInStock" class="toggle-checkbox" checked>
+                <span class="toggle-switch"></span>
+                <span>In Stock (Available)</span>
+              </label>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button id="saveProductBtn" class="btn btn-primary">Save Product</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- --- ADD/EDIT PROMO MODAL --- -->
+  <div id="promoModal" class="modal-wrapper">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2 id="promoModalTitle">Create Promo Code</h2>
+        <button id="closePromoModalBtn" class="btn-close-cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="promoForm">
+          <input type="hidden" id="editPromoId">
+          <div class="form-group">
+            <label for="promoCode">Discount Code <span>*</span></label>
+            <input type="text" id="promoCode" class="form-control" required placeholder="e.g. SPECIAL15" style="text-transform: uppercase;">
+          </div>
+          <div class="form-group">
+            <label for="promoDiscount">Discount Percentage (%) <span>*</span></label>
+            <input type="number" id="promoDiscount" class="form-control" required min="1" max="100" placeholder="e.g. 15">
+          </div>
+          <div class="form-group">
+            <label class="toggle-switch-container">
+              <input type="checkbox" id="promoActive" class="toggle-checkbox" checked>
+              <span class="toggle-switch"></span>
+              <span>Promo Code Active</span>
+            </label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button id="savePromoBtn" class="btn btn-primary">Save Promo Code</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/database.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+# XAMPP config
+.DS_Store
+Thumbs.db
+
+# IDE settings
+.vscode/
+.idea/
+
+# Specific ignores
+frontend/lighthouse_report.html
+frontend/BACKEND_GENERATOR_PROMPT.md
+frontend/BACKEND_IMPLEMENTATION_GUIDE.md
+
+# Ignore IDE inside junctions
+frontend/.vscode/
+frontend/.idea/
+backend/.vscode/
+backend/.idea/

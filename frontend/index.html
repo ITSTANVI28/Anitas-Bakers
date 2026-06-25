@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anita's Bakers - Handcrafted Cakes & Pastries</title>
+  <meta name="description" content="Welcome to Anita's Bakers. Explore our collection of premium handcrafted cakes, cupcakes, pastries, and custom orders. Order directly on WhatsApp!">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Sacramento&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Sacramento&display=swap"></noscript>
+  <link rel="stylesheet" href="css/shared.css">
+  <link rel="stylesheet" href="css/storefront.css">
+</head>
+<body class="storefront-page">
+
+  <!-- --- TOP PROMOTIONAL ANNOUNCEMENT BAR --- -->
+  <div id="announcementBar" class="announcement-bar">
+    <div id="announcementContent" class="announcement-content">🎉 Special Opening Offer: Use Code WELCOME15 to get 15% off your first order! 🍰</div>
+  </div>
+
+  <!-- --- TOAST CONTAINER FOR NOTIFICATIONS --- -->
+  <div id="toastNotification" class="toast-container">
+    <span id="toastMessage">Product added to cart!</span>
+  </div>
+
+  <!-- --- HEADER NAVIGATION --- -->
+  <header id="mainHeader">
+    <div class="container nav-container">
+      <a href="#" class="logo" id="logoLink">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        Anita's <span>Bakers</span>
+      </a>
+      <nav>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#about">Our Story</a></li>
+          <li><a href="#custom-inquiry">Custom Designs</a></li>
+          <li><a href="#testimonials">Reviews</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="nav-right">
+        <!-- Hamburger Menu Button -->
+        <button id="mobileMenuToggleBtn" class="mobile-menu-toggle-btn" aria-label="Toggle Navigation Menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12" class="line-mid"></line>
+            <line x1="3" y1="6" x2="21" y2="6" class="line-top"></line>
+            <line x1="3" y1="18" x2="21" y2="18" class="line-bottom"></line>
+          </svg>
+        </button>
+        
+        <!-- Theme Toggle Switch -->
+        <button id="themeToggleBtn" class="theme-toggle-btn" aria-label="Toggle dark mode">
+          <svg viewBox="0 0 24 24" id="themeSunIcon"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+          <svg viewBox="0 0 24 24" id="themeMoonIcon" style="display: none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+        
+        <button id="cartToggleBtn" class="cart-icon-btn" aria-label="Shopping Cart">
+          <svg viewBox="0 0 24 24">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          <span id="cartBadgeCount" class="cart-badge" style="display: none;">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+  <!-- --- HERO SECTION --- -->
+  <section id="home" class="hero">
+    <div class="container flex-between" style="width: 100%; height: 100%;">
+      <div class="hero-content">
+        <span class="hero-subtitle">Freshly Baked Everyday</span>
+        <h1 class="hero-title">Baking Joy Into Every Single Slice</h1>
+        <p class="hero-desc">Experience handcrafted sweetness made with the finest organic ingredients. From custom birthday cakes to delicate pastries, we bake stories worth sharing.</p>
+        <div class="hero-buttons">
+          <a href="#menu" class="btn btn-primary">Browse Menu</a>
+          <a href="#custom-inquiry" class="btn btn-secondary">Custom Design</a>
+        </div>
+      </div>
+      <div class="hero-image-wrapper">
+        <div class="hero-circle-bg"></div>
+        <img src="images/hero.jpg" alt="Anita's Signature Cake" class="hero-img" id="heroFeaturedImg" width="600" height="400" fetchpriority="high" loading="eager">
+      </div>
+    </div>
+  </section>
+
+  <!-- --- FEATURES SECTION --- -->
+  <section class="features-section">
+    <div class="container">
+      <h2 class="sr-only">Our Core Features</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg viewBox="0 0 24 24"><path d="M12 2a15.3(15.3) 0 0 1 4 10 15.3(15.3) 0 0 1-4 10 15.3(15.3) 0 0 1-4-10 15.3(15.3) 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>
+          </div>
+          <h3>100% Organic</h3>
+          <p>We source only high-quality, local, and organic ingredients for our batter and frostings.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+          </div>
+          <h3>WhatsApp Order</h3>
+          <p>Select your items, configure options, and instantly send your order cart list to our WhatsApp.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+          <h3>Custom Designs</h3>
+          <p>Our experienced cake artists can bring any theme or dream cake design to life.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- MENU / PRODUCTS SECTION --- -->
+  <section id="menu" class="menu-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Our Delicacies</span>
+        <h2 class="section-title">Explore Our Bakery Menu</h2>
+        <p class="section-desc">From decadent chocolate cakes to fresh warm croissants, discover our fresh, daily-made treats.</p>
+      </div>
+
+      <!-- Categories Filter Pills -->
+      <div class="categories-filter" id="categoryFilterContainer">
+        <!-- Dynamic Category buttons will render here -->
+      </div>
+
+      <!-- Products Grid -->
+      <div class="products-grid" id="productsGrid">
+        <!-- Dynamic Product cards will render here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- --- CUSTOM ORDER / DESIGN INQUIRY --- -->
+  <section id="custom-inquiry" class="inquiry-section">
+    <div class="container inquiry-grid">
+      <div class="inquiry-text">
+        <span class="section-subtitle">Custom Creations</span>
+        <h2>Design Your Dream Cake</h2>
+        <p>Planning a wedding, anniversary, or a themed birthday party? Let us craft a completely personalized centerpiece that matches your vision perfectly.</p>
+        <p>Fill out the design request form. Choose your layers, cake shape, select flavor styles, and upload a sketch or design photo you'd like us to match. Our master baker will review it and reply with a quote directly to your WhatsApp!</p>
+        <div style="margin-top:20px; border-left:4px solid var(--accent-gold); padding-left: 16px; font-style:italic;">
+          "Every cake tells a story. Let's design your next chapter together."<br>
+          <strong style="color:var(--accent-gold); font-size:0.9rem;">— Anita, Head Pastry Chef</strong>
+        </div>
+      </div>
+      
+      <div class="inquiry-card">
+        <h3 style="margin-bottom: 20px; font-size: 1.6rem;">Consultation Inquiry</h3>
+        <form id="cakeInquiryForm">
+          <div class="config-options-grid">
+            <div class="form-group">
+              <label for="inqName">Name <span>*</span></label>
+              <input type="text" id="inqName" class="form-control" placeholder="Your Name" required>
+            </div>
+            <div class="form-group">
+              <label for="inqPhone">Phone Number <span>*</span></label>
+              <input type="tel" id="inqPhone" class="form-control" placeholder="10-digit Mobile No" required pattern="[0-9]{10}">
+            </div>
+          </div>
+          <div class="config-options-grid">
+            <div class="form-group">
+              <label for="inqTiers">Cake Tiers <span>*</span></label>
+              <select id="inqTiers" class="form-control" required>
+                <option value="1 Tier">1 Tier (Standard)</option>
+                <option value="2 Tiers">2 Tiers (Tall)</option>
+                <option value="3 Tiers">3 Tiers (Grand)</option>
+                <option value="Custom Layers">More than 3 (Custom)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="inqShape">Shape <span>*</span></label>
+              <select id="inqShape" class="form-control" required>
+                <option value="Round">Classic Round</option>
+                <option value="Square">Modern Square</option>
+                <option value="Heart">Romantic Heart</option>
+                <option value="Hexagonal">Geometric Hexagon</option>
+                <option value="Sculpted / Theme">Custom Sculpted Theme</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inqDesc">Describe Theme, Color Scheme & Details <span>*</span></label>
+            <textarea id="inqDesc" class="form-control" rows="3" placeholder="e.g. Pastel pink floral decoration with gold leaf details, chocolate fudge inside..." required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="inqImageFile">Reference Design Sketch/Photo</label>
+            <div class="image-upload-wrapper" id="inqUploadArea" style="padding:16px;">
+              <input type="file" id="inqImageFile" accept="image/*">
+              <div class="upload-placeholder" id="inqUploadPlaceholder" style="font-size:0.9rem;">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" style="width:24px; height:24px;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                <p>Upload Sketch/Reference File</p>
+              </div>
+              <div class="preview-container" id="inqPreviewContainer">
+                <img src="" alt="Sketch Preview" class="preview-img" id="inqPreviewImg" style="width:80px; height:80px;">
+                <button type="button" class="btn-remove-preview" id="btnRemoveInqPreview" style="font-size:0.75rem;">Change</button>
+              </div>
+            </div>
+            <input type="hidden" id="inqImageBase64">
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Inquiry Quote Request</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- TESTIMONIALS SECTION --- -->
+  <section id="testimonials" class="testimonials-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Customer Love</span>
+        <h2 class="section-title">What Our Guests Say</h2>
+        <p class="section-desc">There is nothing sweeter than feedback from customers who celebrate life's moments with us.</p>
+      </div>
+      
+      <!-- Testimonials grid container -->
+      <div class="testimonials-grid" id="testimonialsGrid">
+        <!-- Rendered dynamically from localStorage approved list -->
+      </div>
+
+      <!-- Add Review submission form inline -->
+      <div class="review-submit-box">
+        <h3 style="margin-bottom: 8px; font-family: var(--font-serif); font-size:1.5rem;">Leave a Review</h3>
+        <p style="font-size:0.9rem; color:var(--text-light-cocoa); margin-bottom: 24px;">Share your baking experience with others! Your review will be displayed after admin moderation.</p>
+        
+        <form id="submitReviewForm">
+          <div class="review-stars-input" id="starsRatingSelector">
+            <svg viewBox="0 0 24 24" data-index="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <svg viewBox="0 0 24 24" data-index="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <svg viewBox="0 0 24 24" data-index="3"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <svg viewBox="0 0 24 24" data-index="4"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <svg viewBox="0 0 24 24" data-index="5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          </div>
+          <input type="hidden" id="selectedStarValue" value="5">
+
+          <div class="config-options-grid">
+            <div class="form-group">
+              <label for="revAuthor">Your Name <span>*</span></label>
+              <input type="text" id="revAuthor" class="form-control" placeholder="e.g. Aditi Shah" required>
+            </div>
+            <div class="form-group">
+              <label for="revType">Occasion / Product bought</label>
+              <input type="text" id="revType" class="form-control" placeholder="e.g. Birthday Cake customer">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="revText">Your Feedback Review <span>*</span></label>
+            <textarea id="revText" class="form-control" rows="3" placeholder="Tell us how the cake tasted..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit Review for Moderation</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- OUR STORY SECTION --- -->
+  <section id="about" class="about-section">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-image">
+          <img src="images/about.jpg" alt="Anita Baking" class="about-img-main" width="500" height="333" loading="lazy">
+          <div class="about-badge">
+            <h4>10+</h4>
+            <p>Years of Baking</p>
+          </div>
+        </div>
+        <div class="about-text">
+          <span class="section-subtitle">Anita's Bakers</span>
+          <h2>Crafted With Love, Baked to Perfection</h2>
+          <p>Established in 2012, Anita's Bakers started as a small home bakery with a passion for bringing families together over delicious treats. Today, we continue that tradition of love, quality, and craftsmanship in every pastry we serve.</p>
+          <p>We believe baking is an art. That is why we refuse to use pre-mixes or artificial preservatives. Each item is measured, mixed, and decorated by hand, ensuring that your celebrations taste just as memorable as they look.</p>
+          <a href="#menu" class="btn btn-primary" style="margin-top: 16px;">Order Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- ORDER TRACKER SECTION --- -->
+  <section id="order-tracker" class="order-tracker-section" style="background: var(--bg-cream); padding: 80px 0; border-top: 1px solid var(--border-color);">
+    <div class="container">
+      <div class="section-header" style="max-width: 600px; margin: 0 auto 40px auto; text-align: center;">
+        <span class="section-subtitle">Real-time Status</span>
+        <h2 class="section-title">Track Your Order</h2>
+        <p class="section-desc">Enter your Order Reference ID to see your cake's journey from our oven to your doorstep.</p>
+      </div>
+      
+      <div class="tracker-card" style="max-width: 700px; margin: 0 auto; background: var(--bg-white); padding: 40px; border-radius: var(--border-radius-lg); border: 1px solid var(--border-color); box-shadow: var(--glass-shadow);">
+        <div class="form-group" style="display: flex; gap: 12px; margin-bottom: 0;">
+          <input type="text" id="orderTrackerInput" class="form-control" placeholder="Enter Reference ID (e.g. ANITA-88231)" style="text-transform: uppercase;">
+          <button id="trackOrderBtn" class="btn btn-primary" style="white-space: nowrap; padding: 0 32px;">Track Status</button>
+        </div>
+        <p id="trackerError" style="color: var(--danger-red); margin-top: 10px; display: none; font-weight: 600; font-size: 0.9rem;"></p>
+        
+        <!-- Live Tracker Timeline (hidden by default) -->
+        <div id="trackerVisualArea" style="display: none; margin-top: 40px; border-top: 1px solid var(--border-color); padding-top: 30px;">
+          <div class="tracker-order-summary" style="margin-bottom: 24px;">
+            <h4 id="trackerCustName" style="font-size: 1.25rem; margin-bottom: 4px;">Order Status</h4>
+            <p id="trackerOrderItems" style="color: var(--text-light-cocoa); font-size: 0.95rem;"></p>
+          </div>
+          
+          <div class="timeline-wrapper">
+            <div class="timeline-progress-bar">
+              <div class="timeline-progress-fill" id="timelineProgressFill"></div>
+            </div>
+            <div class="timeline-steps">
+              <div class="timeline-step" id="step-placed">
+                <div class="step-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                <div class="step-label">Placed</div>
+              </div>
+              <div class="timeline-step" id="step-baking">
+                <div class="step-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></div>
+                <div class="step-label">Baking</div>
+              </div>
+              <div class="timeline-step" id="step-decorating">
+                <div class="step-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg></div>
+                <div class="step-label">Decorating</div>
+              </div>
+              <div class="timeline-step" id="step-shipping">
+                <div class="step-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg></div>
+                <div class="step-label">Shipped</div>
+              </div>
+              <div class="timeline-step" id="step-delivered">
+                <div class="step-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></div>
+                <div class="step-label">Delivered</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- CONTACT SECTION --- -->
+  <section id="contact" class="contact-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Get In Touch</span>
+        <h2 class="section-title">We'd Love to Hear From You</h2>
+        <p class="section-desc">Visit our store, call us to discuss custom cake themes, or send us a message online.</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-info-panel">
+          <h3>Store Information</h3>
+          <div class="contact-item">
+            <div class="contact-item-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            </div>
+            <div class="contact-item-details">
+              <h4>Address</h4>
+              <p id="contactAddress">123 Cake Studio Lane, Sweet Valley, MH, India</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">
+              <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            </div>
+            <div class="contact-item-details">
+              <h4>WhatsApp / Phone</h4>
+              <p id="contactPhone">+91 98765 43210</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">
+              <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            </div>
+            <div class="contact-item-details">
+              <h4>Operating Hours</h4>
+              <p id="contactHours">Mon - Sat: 9:00 AM - 9:00 PM<br>Sunday: 10:00 AM - 6:00 PM</p>
+            </div>
+          </div>
+        </div>
+        <div class="map-container">
+          <div class="map-placeholder">
+            <svg viewBox="0 0 24 24"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon><line x1="9" y1="3" x2="9" y2="18"></line><line x1="15" y1="6" x2="15" y2="21"></line></svg>
+            <h3>Location Map</h3>
+            <p>Our premium retail bakery shop and baking workshop.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+  <!-- --- FOOTER --- -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>Anita's Bakers</h3>
+          <p>Delighting taste buds with premium organic pastries and customized celebration cakes since 2012.</p>
+          <div class="footer-socials">
+            <a href="#" class="social-link" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
+            <a href="#" class="social-link" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#about">Our Story</a></li>
+            <li><a href="#custom-inquiry">Custom Designs</a></li>
+            <li><a href="#testimonials">Reviews</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Bakery Items</h4>
+          <ul>
+            <li><a href="#menu">Custom Birthday Cakes</a></li>
+            <li><a href="#menu">Wedding Cakes</a></li>
+            <li><a href="#menu">Organic French Pastries</a></li>
+            <li><a href="#menu">Artisan Breads</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Anita's Bakers. All rights reserved.</p>
+        <p>Made with &hearts; for Sweet Memories</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- --- BACKGROUND BACKDROP FILTER OVERLAY --- -->
+  <div id="overlayBackdrop" class="overlay-backdrop"></div>
+
+  <!-- --- SLIDE-IN SHOPPING CART SIDEBAR --- -->
+  <aside id="cartSidebar" class="cart-sidebar">
+    <div class="cart-header">
+      <h2>Your Cart</h2>
+      <button id="closeCartBtn" class="btn-close-cart" aria-label="Close Cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    
+    <div id="cartItemsList" class="cart-items-list">
+      <!-- Dynamic cart items will render here -->
+    </div>
+
+    <div class="cart-footer">
+      <div class="promo-container">
+        <input type="text" id="promoCodeInput" class="promo-input" placeholder="Promo Code (e.g. ANITA10)">
+        <button id="applyPromoBtn" class="btn-promo-apply">Apply</button>
+      </div>
+      <p id="promoStatusMessage" class="promo-status-message"></p>
+
+      <div class="cart-summary-row">
+        <span>Subtotal</span>
+        <span id="cartSubtotal">₹0.00</span>
+      </div>
+      <div id="discountRow" class="cart-summary-row" style="display: none; color: var(--success-green);">
+        <span>Discount (<span id="discountPercentage">0</span>%)</span>
+        <span id="cartDiscount">-₹0.00</span>
+      </div>
+      <div class="cart-summary-row">
+        <span>Delivery Fee</span>
+        <span id="cartDeliveryFee">₹0.00</span>
+      </div>
+      <div class="cart-summary-row total">
+        <span>Total</span>
+        <span id="cartTotal">₹0.00</span>
+      </div>
+      <button id="checkoutBtn" class="btn-checkout">
+        Proceed to Checkout
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- --- PRODUCT QUICK VIEW MODAL --- -->
+  <div id="quickViewModal" class="modal-wrapper">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2>Product Details</h2>
+        <button id="closeQuickViewModalBtn" class="btn-close-cart" aria-label="Close Product Details Modal">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body quickview-grid">
+        <img id="qvImg" src="" alt="Product Image" class="quickview-img">
+        <div class="quickview-info">
+          <h3 id="qvTitle">Belgian Chocolate Truffle</h3>
+          <div id="qvPrice" class="price">₹950</div>
+          <p id="qvDesc">Rich dark chocolate layered pastry cake...</p>
+          <div class="quickview-details-list">
+            <div>🍀 <strong>Dietary Info:</strong> Egg/Eggless option available</div>
+            <div>🌾 <strong>Allergens:</strong> Gluten, Dairy (May contain traces of nuts)</div>
+            <div>🔥 <strong>Calorie Count:</strong> ~340 kcal / slice</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="qvAddToCartBtn" class="btn btn-primary">Add to Shopping Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- --- CUSTOM CAKE CONFIGURATOR MODAL (WIZARD EDITION) --- -->
+  <div id="configuratorModal" class="modal-wrapper">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2>Configure Cake</h2>
+        <button id="closeConfigModalBtn" class="btn-close-cart" aria-label="Close Cake Configurator Modal">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body" style="padding-top: 20px;">
+        
+        <!-- Wizard Step Indicators -->
+        <div class="wizard-steps-indicator" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; position: relative; padding: 0 10px;">
+          <div class="wizard-indicator-line" style="position: absolute; top: 15px; left: 0; right: 0; height: 3px; background: var(--border-color); z-index: 1;"></div>
+          <div class="wizard-indicator-line-fill" id="wizardProgressLine" style="position: absolute; top: 15px; left: 0; width: 0%; height: 3px; background: var(--accent-gold); z-index: 2; transition: var(--transition-smooth);"></div>
+          
+          <div class="indicator-step active" id="indStep1" style="z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+            <div class="step-num" style="width: 32px; height: 32px; border-radius: 50%; background: var(--accent-gold); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; border: 3px solid var(--bg-white); transition: var(--transition-fast);">1</div>
+            <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-cocoa);">Base</span>
+          </div>
+          <div class="indicator-step" id="indStep2" style="z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+            <div class="step-num" style="width: 32px; height: 32px; border-radius: 50%; background: #D1C7BD; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; border: 3px solid var(--bg-white); transition: var(--transition-fast);">2</div>
+            <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-light-cocoa);">Flavor</span>
+          </div>
+          <div class="indicator-step" id="indStep3" style="z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+            <div class="step-num" style="width: 32px; height: 32px; border-radius: 50%; background: #D1C7BD; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; border: 3px solid var(--bg-white); transition: var(--transition-fast);">3</div>
+            <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-light-cocoa);">Decor</span>
+          </div>
+        </div>
+
+        <!-- Interactive visual cake stack builder -->
+        <div class="cake-visualizer" id="cakeVisualizer">
+          <div class="cake-layers-container" id="cakeVisualContainer">
+            <!-- Layers will stack here in real-time -->
+          </div>
+          <div class="cake-stand"></div>
+          <div class="cake-stand-base"></div>
+        </div>
+
+        <div class="configurator-meta" style="margin-bottom: 15px; padding-bottom: 12px;">
+          <img id="configCakeImg" src="" alt="Cake Preview" class="configurator-img" style="display:none;">
+          <div class="configurator-details">
+            <h3 id="configCakeTitle">Custom Celebration Cake</h3>
+            <p id="configCakeBasePrice" class="price">Base: ₹0.00</p>
+          </div>
+        </div>
+        
+        <form id="cakeConfigForm">
+          <input type="hidden" id="configCakeId">
+          
+          <!-- Step 1 Panel: Shape and Size -->
+          <div class="wizard-step-panel" id="configPanelStep1">
+            <div class="config-options-grid">
+              <div class="form-group">
+                <label for="cakeShape">Cake Shape <span>*</span></label>
+                <select id="cakeShape" class="form-control">
+                  <option value="Round" data-price="0">Round Shape (+₹0)</option>
+                  <option value="Square" data-price="50">Square Shape (+₹50)</option>
+                  <option value="Heart" data-price="100">Heart Shape (+₹100)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="cakeWeight">Size / Weight <span>*</span></label>
+                <select id="cakeWeight" class="form-control">
+                  <option value="1" data-price="0">1.0 kg (Base Price)</option>
+                  <option value="1.5" data-price="350">1.5 kg (+₹350)</option>
+                  <option value="2" data-price="600">2.0 kg (+₹600)</option>
+                  <option value="3" data-price="1100">3.0 kg (+₹1100)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Step 2 Panel: Flavor & Eggless option -->
+          <div class="wizard-step-panel" id="configPanelStep2" style="display: none;">
+            <div class="config-options-grid">
+              <div class="form-group">
+                <label for="cakeFlavor">Flavor Option <span>*</span></label>
+                <select id="cakeFlavor" class="form-control">
+                  <option value="Chocolate Truffle" data-price="0">Chocolate Truffle (+₹0)</option>
+                  <option value="Red Velvet" data-price="150">Red Velvet (+₹150)</option>
+                  <option value="Butterscotch Crunch" data-price="50">Butterscotch Crunch (+₹50)</option>
+                  <option value="Fresh Pineapple" data-price="0">Fresh Pineapple (+₹0)</option>
+                  <option value="Choco-Hazelnut" data-price="200">Choco-Hazelnut (+₹200)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="toggle-switch-container" style="margin-top: 32px;">
+                  <input type="checkbox" id="cakeEggless" class="toggle-checkbox">
+                  <span class="toggle-switch"></span>
+                  <span>Make it Eggless (+₹100)</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Step 3 Panel: Message & Custom Toppings -->
+          <div class="wizard-step-panel" id="configPanelStep3" style="display: none;">
+            <div class="form-group">
+              <label for="cakeMessage">Message on the Cake (Max 20 chars)</label>
+              <input type="text" id="cakeMessage" class="form-control" placeholder="e.g. Happy Birthday" maxlength="20">
+            </div>
+            
+            <div class="form-group" style="margin-bottom: 0;">
+              <label>Select Cake Toppings (Free Add-ons)</label>
+              <div class="toppings-options-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 6px;">
+                <label class="toggle-switch-container" style="padding: 10px 8px; justify-content: center; font-size: 0.8rem; margin-bottom: 0;">
+                  <input type="checkbox" id="topCherries" class="toggle-checkbox">
+                  <span class="toggle-switch" style="width: 32px; height: 18px; min-width: 32px;"></span>
+                  <span>🍒 Cherries</span>
+                </label>
+                <label class="toggle-switch-container" style="padding: 10px 8px; justify-content: center; font-size: 0.8rem; margin-bottom: 0;">
+                  <input type="checkbox" id="topSprinkles" class="toggle-checkbox">
+                  <span class="toggle-switch" style="width: 32px; height: 18px; min-width: 32px;"></span>
+                  <span>✨ Sprinkles</span>
+                </label>
+                <label class="toggle-switch-container" style="padding: 10px 8px; justify-content: center; font-size: 0.8rem; margin-bottom: 0;">
+                  <input type="checkbox" id="topCandles" class="toggle-checkbox">
+                  <span class="toggle-switch" style="width: 32px; height: 18px; min-width: 32px;"></span>
+                  <span>🕯️ Candles</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="configurator-price-box" style="margin-top: 15px; padding: 12px 20px;">
+            Total Price: <span id="configTotalPrice">₹0.00</span>
+          </div>
+        </form>
+        
+        <!-- Wizard Navigation Controls -->
+        <div class="wizard-nav-controls" style="display: flex; justify-content: space-between; margin-top: 20px;">
+          <button type="button" id="prevStepBtn" class="btn btn-secondary" style="padding: 10px 24px; visibility: hidden; font-size: 0.9rem;">Back</button>
+          <button type="button" id="nextStepBtn" class="btn btn-primary" style="padding: 10px 24px; font-size: 0.9rem;">Next</button>
+          <button type="button" id="addConfiguredToCartBtn" class="btn btn-primary" style="padding: 10px 24px; display: none; font-size: 0.9rem;">Add Configured Cake</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- --- CHECKOUT MODAL --- -->
+  <div id="checkoutModal" class="modal-wrapper">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2>Order Checkout</h2>
+        <button id="closeCheckoutModalBtn" class="btn-close-cart" aria-label="Close Checkout Modal">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="checkoutForm">
+          <div class="form-group">
+            <label for="custName">Full Name <span>*</span></label>
+            <input type="text" id="custName" class="form-control" placeholder="Your Name" required>
+          </div>
+          <div class="form-group">
+            <label for="custPhone">Phone Number <span>*</span></label>
+            <input type="tel" id="custPhone" class="form-control" placeholder="10-digit Mobile Number" required pattern="[0-9]{10}">
+          </div>
+          <div class="form-group">
+            <label for="custAddress">Delivery / Pickup Address <span>*</span></label>
+            <textarea id="custAddress" class="form-control" rows="3" placeholder="Complete Street Name, Building No, Landmark" required></textarea>
+          </div>
+          <div class="config-options-grid">
+            <div class="form-group">
+              <label for="deliveryDate">Delivery Date <span>*</span></label>
+              <input type="date" id="deliveryDate" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="deliveryTime">Preferred Time <span>*</span></label>
+              <select id="deliveryTime" class="form-control" required>
+                <option value="">Select Time Slot</option>
+                <option value="11:00 AM - 01:00 PM">11:00 AM - 01:00 PM</option>
+                <option value="01:00 PM - 04:00 PM">01:00 PM - 04:00 PM</option>
+                <option value="04:00 PM - 07:00 PM">04:00 PM - 07:00 PM</option>
+                <option value="07:00 PM - 09:00 PM">07:00 PM - 09:00 PM</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="orderNotes">Special Cooking/Decorating Instructions</label>
+            <textarea id="orderNotes" class="form-control" rows="2" placeholder="e.g. Less sweet, pack candles, etc."></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="submitOrderBtn" class="btn btn-primary" style="display: flex; align-items: center; gap: 8px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+          Send Order via WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- --- SPIN THE WHEEL TRIGGER BUTTON --- -->
+  <button id="spinWheelTrigger" class="spin-wheel-trigger-btn">
+    <div class="wheel-icon-inner">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="2" x2="12" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 12L19.07 4.93"></path><path d="M12 12L4.93 19.07"></path><path d="M12 12L4.93 4.93"></path><path d="M12 12L19.07 19.07"></path></svg>
+    </div>
+    <span>Spin & Win!</span>
+  </button>
+
+  <!-- --- SPIN THE WHEEL MODAL --- -->
+  <div id="spinWheelModal" class="modal-wrapper">
+    <div class="modal-container" style="max-width: 450px;">
+      <div class="modal-header">
+        <h2>Spin the Magic Wheel</h2>
+        <button id="closeSpinWheelModalBtn" class="btn-close-cart" aria-label="Close Spin the Wheel Modal">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body text-center" style="padding: 24px 32px 32px 32px;">
+        <p style="color: var(--text-light-cocoa); font-weight: 500; margin-bottom: 24px;">Spin the wheel to win a special coupon code! Auto-applies to your cart.</p>
+        
+        <!-- Canvas/SVG Wheel Container -->
+        <div class="wheel-spinner-container">
+          <div class="wheel-pointer">▼</div>
+          <div class="wheel-canvas-wrap">
+            <svg id="wheelCanvas" viewBox="0 0 300 300">
+              <circle cx="150" cy="150" r="140" fill="var(--bg-white)" stroke="var(--accent-gold)" stroke-width="6"/>
+              
+              <!-- Segment Path slices (8 Slices, 45 deg each) -->
+              <path d="M 150,150 L 150,10 A 140 140 0 0 1 249,51 Z" fill="var(--accent-pink)"/>
+              <path d="M 150,150 L 249,51 A 140 140 0 0 1 290,150 Z" fill="var(--bg-cream)"/>
+              <path d="M 150,150 L 290,150 A 140 140 0 0 1 249,249 Z" fill="var(--accent-gold)"/>
+              <path d="M 150,150 L 249,249 A 140 140 0 0 1 150,290 Z" fill="var(--text-light-cocoa)"/>
+              <path d="M 150,150 L 150,290 A 140 140 0 0 1 51,249 Z" fill="var(--accent-pink)"/>
+              <path d="M 150,150 L 51,249 A 140 140 0 0 1 10,150 Z" fill="var(--bg-cream)"/>
+              <path d="M 150,150 L 10,150 A 140 140 0 0 1 51,51 Z" fill="var(--accent-pink-dark)"/>
+              <path d="M 150,150 L 51,51 A 140 140 0 0 1 150,10 Z" fill="var(--text-cocoa)"/>
+              
+              <!-- Slices Text -->
+              <g fill="var(--text-cocoa)" font-weight="700" font-size="11">
+                <text transform="translate(195,65) rotate(22.5)">10% Off</text>
+                <text transform="translate(235,115) rotate(67.5)">Oops!</text>
+                <text transform="translate(230,195) rotate(112.5)" fill="white">15% Off</text>
+                <text transform="translate(170,240) rotate(157.5)" fill="white">Free Gift</text>
+                <text transform="translate(105,245) rotate(202.5)">5% Off</text>
+                <text transform="translate(45,190) rotate(247.5)">Free Del</text>
+                <text transform="translate(45,105) rotate(292.5)" fill="white">20% Off</text>
+                <text transform="translate(100,55) rotate(337.5)" fill="white">No Luck</text>
+              </g>
+              
+              <!-- Inner Cap Pin -->
+              <circle cx="150" cy="150" r="22" fill="var(--bg-white)" stroke="var(--accent-gold)" stroke-width="4"/>
+              <circle cx="150" cy="150" r="10" fill="var(--accent-gold)"/>
+            </svg>
+          </div>
+        </div>
+        
+        <button id="spinWheelBtn" class="btn btn-primary" style="width: 100%; margin-top: 24px; padding: 14px;">Spin the Wheel!</button>
+        
+        <!-- Result Reveal Area -->
+        <div id="spinResultArea" style="display: none; margin-top: 24px; padding: 20px; background: rgba(90, 143, 118, 0.1); border: 1px dashed var(--success-green); border-radius: var(--border-radius-md);">
+          <h4 style="color: var(--success-green); font-size: 1.25rem; margin-bottom: 8px;">Congratulations! 🎉</h4>
+          <p id="spinResultText" style="font-weight: 600; margin-bottom: 12px;">You won 15% off with code: <span id="winCodeDisplay" style="color: var(--accent-gold); font-size: 1.25rem; font-weight: 800; letter-spacing: 1px;">ANITA15</span></p>
+          <span style="font-size: 0.8rem; color: var(--text-light-cocoa);">Code has been auto-copied and applied to your checkout cart!</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- --- PRINTABLE INVOICE MODAL --- -->
+  <div id="invoiceModal" class="modal-wrapper">
+    <div class="modal-container" style="max-width: 500px;">
+      <div class="modal-header no-print">
+        <h2>Order Confirmation</h2>
+        <button id="closeInvoiceModalBtn" class="btn-close-cart" aria-label="Close Order Confirmation Invoice Modal">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body printable-invoice-body" id="printableInvoiceArea">
+        <div class="invoice-header-branding text-center">
+          <h1 style="font-family: var(--font-serif); font-size: 1.8rem; margin-bottom: 4px;">Anita's Bakers</h1>
+          <p style="font-size: 0.85rem; color: var(--text-light-cocoa); margin-bottom: 16px;">123 Cake Studio Lane, Sweet Valley • +91 98765 43210</p>
+          <div style="border-top: 2px dashed var(--border-color); border-bottom: 2px dashed var(--border-color); padding: 8px 0; margin-bottom: 20px;">
+            <h2 style="font-family: var(--font-serif); text-transform: uppercase; letter-spacing: 1px; font-size: 1.25rem;">Receipt / Invoice</h2>
+            <span style="font-size: 0.8rem; color: var(--text-light-cocoa);" id="invoiceDate">Date: --/--/----</span>
+          </div>
+        </div>
+        
+        <div class="invoice-metadata-grid" style="font-size: 0.9rem; margin-bottom: 20px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 8px;">
+          <div>
+            <strong>Billing To:</strong>
+            <p id="invCustomerName" style="color: var(--text-light-cocoa); margin-top: 2px; font-weight:600;">Name</p>
+            <p id="invCustomerPhone" style="color: var(--text-light-cocoa);">Phone</p>
+          </div>
+          <div style="text-align: right;">
+            <strong>Reference ID:</strong>
+            <p id="invRefId" style="font-family: monospace; font-size: 1rem; color: var(--accent-gold); font-weight: 700; margin-top: 2px;">ANITA-xxxxx</p>
+            <strong>Preferred Time:</strong>
+            <p id="invPreferredTime" style="color: var(--text-light-cocoa); font-size: 0.85rem;">Time slot</p>
+          </div>
+        </div>
+        
+        <table class="invoice-items-table" style="width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-bottom: 20px;">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <th style="padding: 8px 0; text-align: left; background: none; font-size: 0.85rem; border-bottom: 1px solid var(--border-color); text-transform:none;">Item Description</th>
+              <th style="padding: 8px 0; text-align: right; background: none; font-size: 0.85rem; width: 60px; border-bottom: 1px solid var(--border-color); text-transform:none;">Qty</th>
+              <th style="padding: 8px 0; text-align: right; background: none; font-size: 0.85rem; width: 80px; border-bottom: 1px solid var(--border-color); text-transform:none;">Amount</th>
+            </tr>
+          </thead>
+          <tbody id="invoiceItemsBody">
+            <!-- Dynamically populated rows -->
+          </tbody>
+        </table>
+        
+        <div class="invoice-summary-box" style="border-top: 1px dashed var(--border-color); padding-top: 12px; font-size: 0.9rem; display: flex; flex-direction: column; gap: 6px;">
+          <div class="flex-between">
+            <span>Subtotal</span>
+            <span id="invSubtotal">₹0.00</span>
+          </div>
+          <div class="flex-between" id="invDiscountRow" style="display: none; color: var(--success-green);">
+            <span>Discount Applied</span>
+            <span id="invDiscountValue">-₹0.00</span>
+          </div>
+          <div class="flex-between">
+            <span>Delivery Charges</span>
+            <span id="invDeliveryFee">₹0.00</span>
+          </div>
+          <div class="flex-between">
+            <span>Taxes (5% GST)</span>
+            <span id="invTax">₹0.00</span>
+          </div>
+          <div class="flex-between total" style="border-top: 2px solid var(--text-cocoa); padding-top: 8px; margin-top: 4px; font-size: 1.15rem; font-weight: 800;">
+            <span>Grand Total</span>
+            <span id="invGrandTotal">₹0.00</span>
+          </div>
+        </div>
+        
+        <div class="invoice-footer text-center" style="margin-top: 30px; border-top: 1px solid var(--border-color); padding-top: 16px; font-size: 0.8rem; color: var(--text-light-cocoa);">
+          <p>Thank you for choosing <strong>Anita's Bakers</strong>!</p>
+          <p>Please share this receipt reference ID when making payment on WhatsApp.</p>
+        </div>
+      </div>
+      <div class="modal-footer no-print">
+        <button id="printInvoiceBtn" class="btn btn-secondary" style="display: flex; align-items: center; gap: 6px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          Print Receipt
+        </button>
+        <button id="sendInvoiceWhatsAppBtn" class="btn btn-primary">
+          Open WhatsApp Checkout
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/database.js" defer></script>
+  <script src="js/storefront.js" defer></script>
+</body>
+</html>
