@@ -1581,7 +1581,8 @@ if (document.getElementById("adminLockScreen")) {
         discount: discountVal,
         delivery_fee: deliveryVal,
         tax: taxVal,
-        grand_total: grandTotalVal
+        grand_total: grandTotalVal,
+        status: 'Delivered'
       };
 
       try {

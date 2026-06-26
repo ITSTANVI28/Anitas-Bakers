@@ -13,6 +13,8 @@ $deliveryFee = $body['delivery_fee'] ?? $body['deliveryFee'] ?? 0.0;
 $tax = $body['tax'] ?? 0.0;
 $grandTotal = $body['grand_total'] ?? $body['grandTotal'] ?? 0.0;
 
+$status = $body['status'] ?? 'Placed';
+
 if (empty($custName) || empty($custPhone) || empty($items)) {
     errorResponse('Customer name, phone number, and items are required', 400);
 }
@@ -32,7 +34,7 @@ try {
         $exists = $stmt->fetchColumn() > 0;
     } while ($exists);
     
-    $stmt = $db->prepare("INSERT INTO orders (ref_id, cust_name, cust_phone, cust_address, delivery_date, delivery_time, notes, items, subtotal, discount, delivery_fee, tax, grand_total, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Placed')");
+    $stmt = $db->prepare("INSERT INTO orders (ref_id, cust_name, cust_phone, cust_address, delivery_date, delivery_time, notes, items, subtotal, discount, delivery_fee, tax, grand_total, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
     $itemsJson = json_encode($items);
     $stmt->execute([
@@ -48,7 +50,8 @@ try {
         $discount,
         $deliveryFee,
         $tax,
-        $grandTotal
+        $grandTotal,
+        $status
     ]);
     
     successResponse(['ref_id' => $refId], 'Order placed successfully', 201);
