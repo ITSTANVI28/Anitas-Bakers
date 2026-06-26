@@ -1083,7 +1083,8 @@ if (document.getElementById("adminLockScreen")) {
       order.items.forEach(item => {
         let metaDetails = "";
         if (item.customised) {
-          metaDetails = `<div style="font-size: 0.75rem; color: var(--text-light-cocoa); margin-top: 2px;">${item.config.shape} • ${item.config.weight} • ${item.config.flavor} • ${item.config.eggless} <br> Toppings: ${item.config.toppings} <br> Message: "${item.config.message}"</div>`;
+          let frostingText = item.config.frosting ? ` • Frosting: ${item.config.frosting}` : "";
+          metaDetails = `<div style="font-size: 0.75rem; color: var(--text-light-cocoa); margin-top: 2px;">${item.config.shape} • ${item.config.weight} • ${item.config.flavor}${frostingText} • ${item.config.eggless} <br> Toppings: ${item.config.toppings || 'None'} <br> Message: "${item.config.message || ''}"</div>`;
         } else {
           metaDetails = `<div style="font-size: 0.75rem; color: var(--text-light-cocoa); margin-top: 2px;">${item.category}</div>`;
         }
@@ -1102,40 +1103,43 @@ if (document.getElementById("adminLockScreen")) {
 
       const settings = await getSettings();
       const discountRowHTML = order.discount > 0 
-        ? `<div class="flex-between" style="color: var(--success-green);"><span>Discount Applied</span><span>-₹${order.discount.toFixed(2)}</span></div>`
+        ? `<div class="flex-between" style="color: var(--success-green); display: flex; justify-content: space-between;"><span>Discount Applied</span><span>-₹${order.discount.toFixed(2)}</span></div>`
         : "";
 
       adminPrintInvoiceArea.innerHTML = `
-        <div class="invoice-header-branding text-center">
-          <h1 style="font-family: var(--font-serif); font-size: 1.8rem; margin-bottom: 4px;">Anita's Bakers</h1>
-          <p style="font-size: 0.85rem; color: var(--text-light-cocoa); margin-bottom: 16px;">123 Cake Studio Lane, Sweet Valley • +91 98765 43210</p>
-          <div style="border-top: 2px dashed var(--border-color); border-bottom: 2px dashed var(--border-color); padding: 8px 0; margin-bottom: 20px;">
-            <h4 style="text-transform: uppercase; letter-spacing: 1px;">Fulfillment Packaging Slip</h4>
+        <div class="invoice-header-branding text-center" style="text-align: center; margin-bottom: 15px;">
+          <h1 style="font-family: var(--font-serif); font-size: 1.8rem; margin: 0 0 4px 0; color: #2C1A11; font-weight: 700;">Anita's Bakers</h1>
+          <p style="font-size: 0.85rem; color: var(--text-light-cocoa); margin: 0 0 12px 0; font-weight: 500; line-height: 1.3;">
+            ${(settings.address || '123 Cake Studio Lane, Sweet Valley').replace(/\n/g, ', ')}<br>
+            Contact: +${(settings.whatsapp || '919876543210').replace(/^\+/, '')}
+          </p>
+          <div style="border-top: 2px dashed var(--border-color); border-bottom: 2px dashed var(--border-color); padding: 8px 0; margin-bottom: 15px;">
+            <h4 style="text-transform: uppercase; letter-spacing: 1px; margin: 0; font-size: 0.95rem; color: #2C1A11; font-weight: 700;">Fulfillment Packaging Slip</h4>
             <span style="font-size: 0.8rem; color: var(--text-light-cocoa);">Date Placed: ${order.date}</span>
           </div>
         </div>
         
-        <div class="invoice-metadata-grid" style="font-size: 0.9rem; margin-bottom: 20px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 8px;">
+        <div class="invoice-metadata-grid" style="font-size: 0.85rem; margin-bottom: 15px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 8px;">
           <div>
-            <strong>Deliver To:</strong>
-            <p style="color: var(--text-light-cocoa); margin-top: 2px; font-weight:600;">${order.custName}</p>
-            <p style="color: var(--text-light-cocoa);">${order.custPhone}</p>
-            <p style="color: var(--text-light-cocoa); font-size: 0.8rem; margin-top:4px;">${order.custAddress}</p>
+            <strong style="color: #2C1A11;">Deliver To:</strong>
+            <p style="color: var(--text-light-cocoa); margin: 2px 0 0 0; font-weight: 600;">${order.custName}</p>
+            <p style="color: var(--text-light-cocoa); margin: 2px 0 0 0;">${order.custPhone}</p>
+            <p style="color: var(--text-light-cocoa); font-size: 0.8rem; margin-top: 4px; line-height: 1.2;">${order.custAddress}</p>
           </div>
           <div style="text-align: right;">
-            <strong>Order Ref ID:</strong>
-            <p style="font-family: monospace; font-size: 1rem; color: var(--accent-gold); font-weight: 700; margin-top: 2px;">${order.refId}</p>
-            <strong>Delivery Slot:</strong>
-            <p style="color: var(--text-light-cocoa); font-size: 0.85rem;">${order.deliveryDate}<br>${order.deliveryTime}</p>
+            <strong style="color: #2C1A11;">Order Ref ID:</strong>
+            <p style="font-family: monospace; font-size: 1rem; color: var(--accent-gold); font-weight: 700; margin: 2px 0 6px 0;">${order.refId}</p>
+            <strong style="color: #2C1A11;">Delivery Slot:</strong>
+            <p style="color: var(--text-light-cocoa); font-size: 0.8rem; margin: 2px 0 0 0; line-height: 1.2;">${order.deliveryDate}<br>${order.deliveryTime}</p>
           </div>
         </div>
         
-        <table class="invoice-items-table" style="width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-bottom: 20px;">
+        <table class="invoice-items-table" style="width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-bottom: 15px;">
           <thead>
             <tr style="border-bottom: 1px solid var(--border-color);">
-              <th style="padding: 8px 0; text-align: left; background: none; font-size: 0.85rem; border-bottom: 1px solid var(--border-color); text-transform:none;">Item Description</th>
-              <th style="padding: 8px 0; text-align: right; background: none; font-size: 0.85rem; width: 60px; border-bottom: 1px solid var(--border-color); text-transform:none;">Qty</th>
-              <th style="padding: 8px 0; text-align: right; background: none; font-size: 0.85rem; width: 80px; border-bottom: 1px solid var(--border-color); text-transform:none;">Amount</th>
+              <th style="padding: 6px 0; text-align: left; background: none; font-size: 0.8rem; border-bottom: 1px solid var(--border-color); text-transform:none; color: #2C1A11; font-weight: 700;">Item Description</th>
+              <th style="padding: 6px 0; text-align: right; background: none; font-size: 0.8rem; width: 50px; border-bottom: 1px solid var(--border-color); text-transform:none; color: #2C1A11; font-weight: 700;">Qty</th>
+              <th style="padding: 6px 0; text-align: right; background: none; font-size: 0.8rem; width: 80px; border-bottom: 1px solid var(--border-color); text-transform:none; color: #2C1A11; font-weight: 700;">Amount</th>
             </tr>
           </thead>
           <tbody>
@@ -1143,29 +1147,30 @@ if (document.getElementById("adminLockScreen")) {
           </tbody>
         </table>
         
-        <div class="invoice-summary-box" style="border-top: 1px dashed var(--border-color); padding-top: 12px; font-size: 0.9rem; display: flex; flex-direction: column; gap: 6px;">
-          <div class="flex-between">
+        <div class="invoice-summary-box" style="border-top: 1.5px dashed var(--border-color); padding-top: 10px; font-size: 0.85rem; display: flex; flex-direction: column; gap: 4px;">
+          <div class="flex-between" style="display: flex; justify-content: space-between;">
             <span>Subtotal</span>
             <span>₹${order.subtotal.toFixed(2)}</span>
           </div>
           ${discountRowHTML}
-          <div class="flex-between">
+          <div class="flex-between" style="display: flex; justify-content: space-between;">
             <span>Delivery Charges</span>
             <span>₹${order.deliveryFee.toFixed(2)}</span>
           </div>
-          <div class="flex-between">
+          <div class="flex-between" style="display: flex; justify-content: space-between;">
             <span>Taxes (5% GST)</span>
             <span>₹${order.tax.toFixed(2)}</span>
           </div>
-          <div class="flex-between total" style="border-top: 2px solid var(--text-cocoa); padding-top: 8px; margin-top: 4px; font-size: 1.15rem; font-weight: 800;">
+          <div class="flex-between total" style="border-top: 2px solid var(--text-cocoa); padding-top: 6px; margin-top: 4px; font-size: 1.1rem; font-weight: 800; display: flex; justify-content: space-between;">
             <span>Grand Total</span>
             <span>₹${order.total.toFixed(2)}</span>
           </div>
         </div>
         
-        <div class="invoice-footer text-center" style="margin-top: 30px; border-top: 1px solid var(--border-color); padding-top: 16px; font-size: 0.8rem; color: var(--text-light-cocoa);">
-          <p>Fulfillment status: <strong>${order.status}</strong></p>
-          ${order.notes ? `<p style="margin-top: 8px; color: var(--danger-red);"><strong>Special Instructions:</strong> "${order.notes}"</p>` : ''}
+        <div class="invoice-footer text-center" style="margin-top: 25px; border-top: 1px solid var(--border-color); padding-top: 12px; font-size: 0.8rem; color: var(--text-light-cocoa); text-align: center;">
+          <p style="margin: 0 0 6px 0;">Fulfillment status: <strong>${order.status}</strong></p>
+          ${order.notes ? `<p style="margin: 6px 0 0 0; color: var(--danger-red); line-height: 1.3;"><strong>Special Instructions:</strong> "${order.notes}"</p>` : ''}
+          <p style="margin: 12px 0 0 0; font-style: italic; font-size: 0.75rem; color: var(--accent-gold);">Thank you for ordering with Anita's Bakers! 🌿 100% Pure Veg.</p>
         </div>
       `;
 
