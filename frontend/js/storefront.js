@@ -46,6 +46,7 @@ if (document.getElementById("productsGrid")) {
 
   // Wizard Elements
   const cakeShape = document.getElementById("cakeShape");
+  const cakeFrostingColor = document.getElementById("cakeFrostingColor");
   const topCherries = document.getElementById("topCherries");
   const topSprinkles = document.getElementById("topSprinkles");
   const topCandles = document.getElementById("topCandles");
@@ -501,6 +502,13 @@ if (document.getElementById("productsGrid")) {
     else if (flavor === "Fresh Pineapple") flavorClass = "tier-pineapple";
     else if (flavor === "Choco-Hazelnut") flavorClass = "tier-hazelnut";
 
+    // Establish Frosting Color class override
+    const frosting = cakeFrostingColor ? cakeFrostingColor.value : "default";
+    let frostingClass = "";
+    if (frosting !== "default") {
+      frostingClass = `frosting-${frosting}`;
+    }
+
     // Stacking tier cylinders
     for (let i = 0; i < tierCount; i++) {
       const tierDiv = document.createElement("div");
@@ -514,9 +522,10 @@ if (document.getElementById("productsGrid")) {
         if (i === 2) width = 85;
       }
 
-      tierDiv.className = `cake-visual-tier ${flavorClass}`;
+      tierDiv.className = `cake-visual-tier ${frostingClass || flavorClass}`;
       tierDiv.style.width = `${width}px`;
       tierDiv.style.zIndex = tierCount - i;
+      tierDiv.style.animationDelay = `${0.1 + i * 0.15}s`;
 
       // Apply border radius according to shape
       if (shape === "Square") {
@@ -647,6 +656,7 @@ if (document.getElementById("productsGrid")) {
       cakeShape.value = "Round";
       cakeWeight.value = "1";
       cakeFlavor.value = "Chocolate Truffle";
+      if (cakeFrostingColor) cakeFrostingColor.value = "default";
       cakeEggless.checked = false;
       cakeMessage.value = "";
       topCherries.checked = false;
@@ -680,6 +690,11 @@ if (document.getElementById("productsGrid")) {
       total += parseFloat(flavorOpt.getAttribute("data-price") || 0);
       total += parseFloat(shapeOpt.getAttribute("data-price") || 0);
       
+      if (cakeFrostingColor) {
+        const frostingOpt = cakeFrostingColor.options[cakeFrostingColor.selectedIndex];
+        total += parseFloat(frostingOpt.getAttribute("data-price") || 0);
+      }
+      
       if (cakeEggless.checked) total += 100;
 
       configTotalPrice.textContent = `₹${total}`;
@@ -701,6 +716,12 @@ if (document.getElementById("productsGrid")) {
     await calculateConfigPrice();
     updateVisualCakeStack();
   });
+  if (cakeFrostingColor) {
+    cakeFrostingColor.addEventListener("change", async () => {
+      await calculateConfigPrice();
+      updateVisualCakeStack();
+    });
+  }
   cakeEggless.addEventListener("change", async () => {
     await calculateConfigPrice();
     updateVisualCakeStack();
@@ -728,6 +749,7 @@ if (document.getElementById("productsGrid")) {
 
         const weightVal = cakeWeight.value;
         const flavorVal = cakeFlavor.value;
+        const frostingVal = cakeFrostingColor ? cakeFrostingColor.options[cakeFrostingColor.selectedIndex].text : "Default";
         const shapeVal = cakeShape.value;
         const isEggless = cakeEggless.checked ? "Eggless (+₹100)" : "Standard";
         const messageText = cakeMessage.value.trim() || "No Message";
@@ -743,6 +765,9 @@ if (document.getElementById("productsGrid")) {
         itemPrice += parseFloat(cakeWeight.options[cakeWeight.selectedIndex].getAttribute("data-price") || 0);
         itemPrice += parseFloat(cakeFlavor.options[cakeFlavor.selectedIndex].getAttribute("data-price") || 0);
         itemPrice += parseFloat(cakeShape.options[cakeShape.selectedIndex].getAttribute("data-price") || 0);
+        if (cakeFrostingColor) {
+          itemPrice += parseFloat(cakeFrostingColor.options[cakeFrostingColor.selectedIndex].getAttribute("data-price") || 0);
+        }
         if (cakeEggless.checked) itemPrice += 100;
 
         // Cart matching
@@ -757,6 +782,7 @@ if (document.getElementById("productsGrid")) {
           config: {
             weight: `${weightVal} kg`,
             flavor: flavorVal,
+            frosting: frostingVal,
             shape: shapeVal,
             eggless: isEggless,
             message: messageText,

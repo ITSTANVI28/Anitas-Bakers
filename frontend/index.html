@@ -592,12 +592,23 @@
                 </select>
               </div>
               <div class="form-group">
-                <label class="toggle-switch-container" style="margin-top: 32px;">
-                  <input type="checkbox" id="cakeEggless" class="toggle-checkbox">
-                  <span class="toggle-switch"></span>
-                  <span>Make it Eggless (+₹100)</span>
-                </label>
+                <label for="cakeFrostingColor">Frosting Color <span>*</span></label>
+                <select id="cakeFrostingColor" class="form-control">
+                  <option value="default" data-price="0">Match Flavor Color (+₹0)</option>
+                  <option value="pink" data-price="30">Strawberry Pink (+₹30)</option>
+                  <option value="white" data-price="0">Creamy Vanilla (+₹0)</option>
+                  <option value="blue" data-price="30">Pastel Blue (+₹30)</option>
+                  <option value="yellow" data-price="30">Golden Butterscotch (+₹30)</option>
+                  <option value="green" data-price="30">Fresh Mint (+₹30)</option>
+                </select>
               </div>
+            </div>
+            <div class="form-group" style="margin-top: 12px;">
+              <label class="toggle-switch-container">
+                <input type="checkbox" id="cakeEggless" class="toggle-checkbox">
+                <span class="toggle-switch"></span>
+                <span>Make it Eggless (+₹100)</span>
+              </label>
             </div>
           </div>
           

@@ -1112,6 +1112,24 @@ nav ul li a:hover::after {
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: dropTier 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.2) both;
+}
+
+@keyframes dropTier {
+  0% {
+    transform: translateY(-80px) scaleY(0.7);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(10px) scaleY(1.1);
+  }
+  80% {
+    transform: translateY(-3px) scaleY(0.97);
+  }
+  100% {
+    transform: translateY(0) scaleY(1);
+    opacity: 1;
+  }
 }
 
 .tier-chocolate {
@@ -1133,6 +1151,28 @@ nav ul li a:hover::after {
 .tier-hazelnut {
   background: linear-gradient(135deg, #8E6E53 0%, #573E2B 100%);
   border: 2px solid #A28266;
+}
+
+/* --- Custom Frosting Colors Override --- */
+.frosting-pink {
+  background: linear-gradient(135deg, #FFB7B2 0%, #FF85A1 100%) !important;
+  border-color: #FFA6C9 !important;
+}
+.frosting-white {
+  background: linear-gradient(135deg, #FFF9F2 0%, #EFE5D8 100%) !important;
+  border-color: #E8DCCB !important;
+}
+.frosting-blue {
+  background: linear-gradient(135deg, #B5E2FA 0%, #85C7F2 100%) !important;
+  border-color: #9AD1F5 !important;
+}
+.frosting-yellow {
+  background: linear-gradient(135deg, #FFE5B4 0%, #FFCC80 100%) !important;
+  border-color: #FFDEAB !important;
+}
+.frosting-green {
+  background: linear-gradient(135deg, #C7F9CC 0%, #80ED99 100%) !important;
+  border-color: #A3F7B5 !important;
 }
 
 .cake-visual-tier::after {
