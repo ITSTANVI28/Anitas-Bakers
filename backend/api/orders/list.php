@@ -3,7 +3,7 @@ verifyJWT();
 
 try {
     $db = Database::getInstance()->getConnection();
-    $stmt = $db->query("SELECT * FROM orders ORDER BY order_date DESC");
+    $stmt = $db->query("SELECT * FROM orders ORDER BY date DESC");
     $orders = $stmt->fetchAll();
     
     $formattedOrders = [];
@@ -11,7 +11,7 @@ try {
         $formattedOrders[] = [
             'id' => (int)$o['id'],
             'refId' => $o['ref_id'],
-            'date' => $o['order_date'],
+            'date' => $o['date'],
             'custName' => $o['cust_name'],
             'custPhone' => $o['cust_phone'],
             'custAddress' => $o['cust_address'],

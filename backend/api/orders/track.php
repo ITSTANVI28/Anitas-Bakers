@@ -16,7 +16,7 @@ try {
     $formattedOrder = [
         'id' => (int)$o['id'],
         'refId' => $o['ref_id'],
-        'date' => $o['order_date'],
+        'date' => $o['date'],
         'custName' => $o['cust_name'],
         'custPhone' => $o['cust_phone'],
         'custAddress' => $o['cust_address'],
