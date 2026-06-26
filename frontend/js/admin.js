@@ -773,6 +773,178 @@ if (document.getElementById("adminLockScreen")) {
     }
   };
 
+  // --- SALES ANALYTICS CHARTS ---
+  let salesInstance = null;
+  let categoryInstance = null;
+
+  async function renderSalesCharts() {
+    try {
+      const orders = await getOrders();
+      
+      const monthlySales = {};
+      const categoryCounts = {};
+      
+      const monthsOrder = [];
+      const now = new Date();
+      for (let i = 5; i >= 0; i--) {
+        const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        const label = d.toLocaleString('default', { month: 'short', year: 'numeric' });
+        monthsOrder.push(label);
+        monthlySales[label] = 0;
+      }
+      
+      orders.forEach(order => {
+        if (!order.date) return;
+        
+        const dateObj = new Date(order.date);
+        if (isNaN(dateObj.getTime())) return;
+        
+        const monthLabel = dateObj.toLocaleString('default', { month: 'short', year: 'numeric' });
+        
+        if (order.status !== 'Cancelled') {
+          if (monthlySales[monthLabel] !== undefined) {
+            monthlySales[monthLabel] += parseFloat(order.total || 0);
+          } else {
+            monthlySales[monthLabel] = parseFloat(order.total || 0);
+            if (!monthsOrder.includes(monthLabel)) {
+              monthsOrder.push(monthLabel);
+            }
+          }
+        }
+        
+        const items = order.items || [];
+        items.forEach(item => {
+          const category = item.category || 'Others';
+          categoryCounts[category] = (categoryCounts[category] || 0) + parseInt(item.qty || 1);
+        });
+      });
+      
+      const salesLabels = monthsOrder;
+      const salesData = salesLabels.map(label => monthlySales[label] || 0);
+      
+      const categoryLabels = Object.keys(categoryCounts);
+      const categoryData = Object.values(categoryCounts);
+      
+      const ctxSales = document.getElementById('salesChart');
+      if (ctxSales) {
+        if (salesInstance) salesInstance.destroy();
+        
+        salesInstance = new Chart(ctxSales, {
+          type: 'line',
+          data: {
+            labels: salesLabels,
+            datasets: [{
+              label: 'Revenue (₹)',
+              data: salesData,
+              borderColor: '#80622B',
+              backgroundColor: 'rgba(128, 98, 43, 0.08)',
+              borderWidth: 3,
+              fill: true,
+              tension: 0.35,
+              pointBackgroundColor: '#2C1A11',
+              pointBorderColor: '#80622B',
+              pointRadius: 4,
+              pointHoverRadius: 6
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: false
+              },
+              tooltip: {
+                backgroundColor: 'rgba(44, 26, 17, 0.95)',
+                titleFont: { family: 'Outfit' },
+                bodyFont: { family: 'Outfit' },
+                callbacks: {
+                  label: function(context) {
+                    return ` Revenue: ₹${context.raw.toLocaleString('en-IN')}`;
+                  }
+                }
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                grid: {
+                  color: 'rgba(44, 26, 17, 0.05)'
+                },
+                ticks: {
+                  color: '#604B3E',
+                  font: {
+                    family: 'Outfit',
+                    size: 10
+                  }
+                }
+              },
+              x: {
+                grid: {
+                  display: false
+                },
+                ticks: {
+                  color: '#604B3E',
+                  font: {
+                    family: 'Outfit',
+                    size: 10
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
+      
+      const ctxCat = document.getElementById('categoryChart');
+      if (ctxCat) {
+        if (categoryInstance) categoryInstance.destroy();
+        
+        const colors = ['#80622B', '#E29B8C', '#2C1A11', '#5A8F76', '#D36B5C', '#A81C2E'];
+        
+        categoryInstance = new Chart(ctxCat, {
+          type: 'doughnut',
+          data: {
+            labels: categoryLabels.length > 0 ? categoryLabels : ['No Orders'],
+            datasets: [{
+              data: categoryData.length > 0 ? categoryData : [1],
+              backgroundColor: categoryData.length > 0 ? colors.slice(0, categoryLabels.length) : ['#d1c7bd'],
+              borderWidth: 2,
+              borderColor: '#FFFFFF'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: 'bottom',
+                labels: {
+                  color: '#2C1A11',
+                  font: {
+                    family: 'Outfit',
+                    size: 11
+                  },
+                  padding: 10,
+                  usePointStyle: true
+                }
+              },
+              tooltip: {
+                backgroundColor: 'rgba(44, 26, 17, 0.95)',
+                titleFont: { family: 'Outfit' },
+                bodyFont: { family: 'Outfit' }
+              }
+            },
+            cutout: '60%'
+          }
+        });
+      }
+      
+    } catch (err) {
+      console.error("Error rendering sales charts:", err);
+    }
+  }
+
   // --- ORDERS FULFILLMENT MANAGEMENT ---
   const apiUpdateOrderStatus = updateOrderStatus;
 
@@ -876,6 +1048,7 @@ if (document.getElementById("adminLockScreen")) {
         `;
         adminOrdersTableBody.appendChild(tr);
       });
+      await renderSalesCharts();
     } catch (err) {
       console.error(err);
     }

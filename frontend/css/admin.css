@@ -524,15 +524,8 @@ body.admin-body .admin-main {
 
 .chart-container {
   height: 220px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.chart-container svg {
-  height: 100%;
-  width: auto;
-  max-width: 100%;
+  position: relative;
+  width: 100%;
 }
 
 /* Premium Admin Table */
