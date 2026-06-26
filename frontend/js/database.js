@@ -209,3 +209,18 @@ async function initAnnouncementBar() {
   }
 }
 initAnnouncementBar();
+
+// ----- Leads -----
+async function getLeads() {
+  const res = await apiFetch('/api/leads');
+  return res.data;
+}
+async function createLead(lead) {
+  return await apiFetch('/api/leads', { method: 'POST', body: JSON.stringify(lead) });
+}
+async function updateLeadStatus(id, status) {
+  return await apiFetch(`/api/leads/${id}/status`, { method: 'PUT', body: JSON.stringify({ status }) });
+}
+async function deleteLead(id) {
+  return await apiFetch(`/api/leads/${id}`, { method: 'DELETE' });
+}

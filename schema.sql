@@ -120,3 +120,12 @@ INSERT INTO products (name, category, price, `desc`, image, isCustomisable, inSt
 -- Dairy & Extras (isCustomisable = 0)
 INSERT INTO products (name, category, price, `desc`, image, isCustomisable, inStock) VALUES
 ('Fresh Homemade Butter', 'Dairy & Extras', 200.00, 'Freshly churned pure white butter (Loni). 🌿 100% Pure Veg.', 'https://images.unsplash.com/photo-1589301760014-d929f39ce9b1?w=600&q=80', 0, 1);
+
+CREATE TABLE IF NOT EXISTS leads (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    interest VARCHAR(255) DEFAULT '',
+    status VARCHAR(50) DEFAULT 'Pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

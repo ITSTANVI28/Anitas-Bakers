@@ -104,6 +104,22 @@ switch (true) {
         require __DIR__ . '/api/settings/update.php';
         break;
 
+    // ===== LEADS =====
+    case $path === '/api/leads' && $method === 'POST':
+        require __DIR__ . '/api/leads/create.php';
+        break;
+    case $path === '/api/leads' && $method === 'GET':
+        require __DIR__ . '/api/leads/list.php';
+        break;
+    case preg_match('#^/api/leads/(\d+)/status$#', $path, $m) && $method === 'PUT':
+        $leadId = $m[1];
+        require __DIR__ . '/api/leads/update-status.php';
+        break;
+    case preg_match('#^/api/leads/(\d+)$#', $path, $m) && $method === 'DELETE':
+        $leadId = $m[1];
+        require __DIR__ . '/api/leads/delete.php';
+        break;
+
     // ===== DEFAULT =====
     default:
         jsonResponse(['success' => false, 'message' => 'Endpoint not found: ' . $method . ' ' . $path], 404);

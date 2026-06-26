@@ -786,6 +786,44 @@
     </div>
   </div>
 
+  <!-- --- LEAD CAPTURE MODAL --- -->
+  <div id="leadModal" class="lead-modal-wrapper">
+    <div class="lead-modal-container">
+      <div class="lead-modal-header">
+        <h3>Welcome to Anita's Bakers!</h3>
+        <button id="closeLeadModalBtn" class="lead-modal-close" aria-label="Close">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="lead-modal-body">
+        <p>Register with us to get special updates, premium discounts, and custom order consults directly on your phone!</p>
+        <form id="leadCaptureForm">
+          <div class="form-group">
+            <label for="leadName">Your Name <span>*</span></label>
+            <input type="text" id="leadName" class="form-control" placeholder="Enter your full name" required>
+          </div>
+          <div class="form-group">
+            <label for="leadPhone">WhatsApp Number <span>*</span></label>
+            <input type="tel" id="leadPhone" class="form-control" placeholder="Enter mobile number" required>
+          </div>
+          <div class="form-group">
+            <label for="leadInterest">What are you looking for?</label>
+            <select id="leadInterest" class="form-control">
+              <option value="Just Browsing">Just Browsing</option>
+              <option value="Custom Cakes">Custom Celebration Cakes</option>
+              <option value="Pastries & Desserts">Pastries & Desserts</option>
+              <option value="Cookies & Breads">Cookies & Breads</option>
+              <option value="Bulk / Party Orders">Bulk / Party Orders</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary btn-checkout" style="margin-top: 10px;">
+            Submit & Continue
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <script src="js/database.js" defer></script>
   <script src="js/storefront.js" defer></script>
 </body>

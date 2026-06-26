@@ -168,6 +168,7 @@ if (document.getElementById("adminLockScreen")) {
       await renderAdminReviews();
       await renderAdminPromos();
       await renderAdminOrders();
+      await renderAdminLeads();
     } catch (err) {
       console.error("Error loading dashboard data:", err);
       showAdminToast("Failed to load dashboard data. Please log in again.", "error");
@@ -1022,6 +1023,99 @@ if (document.getElementById("adminLockScreen")) {
   }
   
   startVisitorsSimulator();
+
+  // HTML escape helper
+  function escapeHTML(str) {
+    if (!str) return '';
+    return str.replace(/[&<>'"]/g, 
+      tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+    );
+  }
+
+  // Render Website Leads List
+  const adminLeadsTableBody = document.getElementById("adminLeadsTableBody");
+  async function renderAdminLeads() {
+    if (!adminLeadsTableBody) return;
+    try {
+      const leads = await getLeads();
+      adminLeadsTableBody.innerHTML = "";
+
+      if (!leads || leads.length === 0) {
+        adminLeadsTableBody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 20px;">No website visitors recorded yet.</td></tr>`;
+        return;
+      }
+
+      leads.forEach(lead => {
+        const tr = document.createElement("tr");
+        
+        let cleanPhone = lead.phone.replace(/\D/g, "");
+        if (cleanPhone.length === 10) cleanPhone = "91" + cleanPhone;
+
+        const dateStr = new Date(lead.createdAt).toLocaleString('en-IN', {
+          dateStyle: 'medium',
+          timeStyle: 'short'
+        });
+
+        const statusClass = lead.status === 'Contacted' ? 'badge-status-completed' : 'badge-status-placed';
+        
+        tr.innerHTML = `
+          <td>${dateStr}</td>
+          <td><strong>${escapeHTML(lead.name)}</strong></td>
+          <td>${escapeHTML(lead.phone)}</td>
+          <td><span class="category-badge">${escapeHTML(lead.interest)}</span></td>
+          <td><span class="badge ${statusClass}">${lead.status}</span></td>
+          <td>
+            <div class="actions-wrapper">
+              <a href="https://wa.me/${cleanPhone}" target="_blank" class="btn btn-secondary btn-icon" title="Chat on WhatsApp" style="background: #25D366; color: white; border: none; display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 4px; padding: 0;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+              </a>
+              ${lead.status === 'Pending' ? `
+                <button class="btn btn-primary btn-icon btn-mark-contacted" data-id="${lead.id}" title="Mark as Contacted" style="width: 32px; height: 32px; padding: 0; display: inline-flex; align-items: center; justify-content: center;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </button>
+              ` : ''}
+              <button class="btn btn-secondary btn-icon btn-delete-lead" data-id="${lead.id}" title="Delete Lead" style="width: 32px; height: 32px; padding: 0; display: inline-flex; align-items: center; justify-content: center;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+              </button>
+            </div>
+          </td>
+        `;
+
+        // Event Listeners
+        const markBtn = tr.querySelector(".btn-mark-contacted");
+        if (markBtn) {
+          markBtn.addEventListener("click", async () => {
+            try {
+              await updateLeadStatus(lead.id, "Contacted");
+              showAdminToast("Lead status updated to Contacted.");
+              await renderAdminLeads();
+            } catch (err) {
+              showAdminToast("Failed to update status.", "error");
+            }
+          });
+        }
+
+        const deleteBtn = tr.querySelector(".btn-delete-lead");
+        if (deleteBtn) {
+          deleteBtn.addEventListener("click", async () => {
+            if (confirm("Are you sure you want to delete this lead?")) {
+              try {
+                await deleteLead(lead.id);
+                showAdminToast("Lead deleted successfully.");
+                await renderAdminLeads();
+              } catch (err) {
+                showAdminToast("Failed to delete lead.", "error");
+              }
+            }
+          });
+        }
+
+        adminLeadsTableBody.appendChild(tr);
+      });
+    } catch (err) {
+      console.error("Failed to render admin leads:", err);
+    }
+  }
 
   checkAuth();
 }

@@ -1239,4 +1239,59 @@ if (document.getElementById("productsGrid")) {
 
   renderCategories().catch(err => console.error("Error rendering categories:", err));
   renderProducts().catch(err => console.error("Error rendering products:", err));
+
+  // --- Lead Capture System ---
+  const leadModal = document.getElementById("leadModal");
+  const closeLeadModalBtn = document.getElementById("closeLeadModalBtn");
+  const leadCaptureForm = document.getElementById("leadCaptureForm");
+
+  function checkAndShowLeadModal() {
+    if (!leadModal) return;
+    const submitted = localStorage.getItem("anitas_lead_submitted");
+    const dismissedAt = localStorage.getItem("anitas_lead_dismissed_at");
+    
+    if (submitted === "true") return;
+
+    if (dismissedAt) {
+      const timeSinceDismiss = Date.now() - parseInt(dismissedAt, 10);
+      if (timeSinceDismiss < 86400000) return; // 24 hours
+    }
+
+    setTimeout(() => {
+      leadModal.classList.add("open");
+    }, 5000);
+  }
+
+  if (closeLeadModalBtn) {
+    closeLeadModalBtn.addEventListener("click", () => {
+      leadModal.classList.remove("open");
+      localStorage.setItem("anitas_lead_dismissed_at", Date.now().toString());
+    });
+  }
+
+  if (leadCaptureForm) {
+    leadCaptureForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("leadName").value.trim();
+      const phone = document.getElementById("leadPhone").value.trim();
+      const interest = document.getElementById("leadInterest").value;
+
+      const submitBtn = leadCaptureForm.querySelector('button[type="submit"]');
+      if (submitBtn) submitBtn.disabled = true;
+
+      try {
+        await createLead({ name, phone, interest });
+        showToast("Thank you for registering! We will contact you soon.", "success");
+        localStorage.setItem("anitas_lead_submitted", "true");
+        leadModal.classList.remove("open");
+      } catch (err) {
+        console.error("Failed to submit lead:", err);
+        showToast("Failed to save details. Please try again.", "error");
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+      }
+    });
+  }
+
+  checkAndShowLeadModal();
 }
