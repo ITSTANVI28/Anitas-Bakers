@@ -362,8 +362,8 @@ if (document.getElementById("productsGrid")) {
         const actionButtonHTML = prod.inStock
           ? (prod.isCustomisable 
               ? `<button class="btn-add-cart" onclick="openConfigurator('${prod.id}')">Configure Cake</button>`
-              : `<button class="btn-add-cart" onclick="addToCartDirect('${prod.id}')">Add to Cart</button>`)
-          : `<button class="btn-add-cart" disabled>Sold Out</button>`;
+              : "")
+          : "";
 
         productCard.innerHTML = `
           ${badgeHTML}
@@ -630,7 +630,7 @@ if (document.getElementById("productsGrid")) {
     prevStepBtn.style.visibility = step === 1 ? "hidden" : "visible";
     if (step === 3) {
       nextStepBtn.style.display = "none";
-      addConfiguredToCartBtn.style.display = "block";
+      addConfiguredToCartBtn.style.display = "none";
     } else {
       nextStepBtn.style.display = "block";
       addConfiguredToCartBtn.style.display = "none";

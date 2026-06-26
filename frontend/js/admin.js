@@ -1231,7 +1231,7 @@ if (document.getElementById("adminLockScreen")) {
     }, 7000);
   }
   
-  startVisitorsSimulator();
+  // startVisitorsSimulator();
 
   // HTML escape helper
   function escapeHTML(str) {
