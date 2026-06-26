@@ -527,6 +527,15 @@ if (document.getElementById("productsGrid")) {
       tierDiv.style.zIndex = tierCount - i;
       tierDiv.style.animationDelay = `${0.1 + i * 0.15}s`;
 
+      // Cream Piping Borders
+      const creamBase = document.createElement("div");
+      creamBase.className = "cake-cream-base";
+      tierDiv.appendChild(creamBase);
+
+      const creamTop = document.createElement("div");
+      creamTop.className = "cake-cream-top";
+      tierDiv.appendChild(creamTop);
+
       // Apply border radius according to shape
       if (shape === "Square") {
         tierDiv.style.borderRadius = "4px";
