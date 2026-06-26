@@ -796,6 +796,49 @@ tr:last-child td {
   }
 }
 
+/* --- Direct Bill Generation Modal Styling --- */
+.bill-item-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: var(--bg-white);
+  border: 1px solid var(--border-color);
+  padding: 10px;
+  border-radius: var(--border-radius-md);
+  transition: all 0.3s ease;
+}
+.bill-item-row:hover {
+  border-color: var(--accent-gold);
+  box-shadow: 0 4px 10px rgba(197, 160, 89, 0.05);
+}
+.btn-remove-bill-item {
+  background: rgba(255, 59, 48, 0.08);
+  color: #ff3b30;
+  border: 1px solid rgba(255, 59, 48, 0.15);
+  padding: 10px;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  height: 42px;
+  width: 42px;
+  box-sizing: border-box;
+}
+.btn-remove-bill-item:hover {
+  background: #ff3b30;
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(255, 59, 48, 0.3);
+  transform: translateY(-1px);
+}
+.btn-remove-bill-item svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  stroke-width: 2.5px;
+}
+
 /* --- Professional Receipt Print Layout --- */
 @media print {
   html, body {

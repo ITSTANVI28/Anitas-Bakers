@@ -1326,5 +1326,294 @@ if (document.getElementById("adminLockScreen")) {
     }
   }
 
+  // --- DIRECT BILL GENERATION LOGIC ---
+  const adminBillModal = document.getElementById("adminBillModal");
+  const openAddBillModalBtn = document.getElementById("openAddBillModalBtn");
+  const closeAdminBillModalBtn = document.getElementById("closeAdminBillModalBtn");
+  const adminBillForm = document.getElementById("adminBillForm");
+  const billItemsContainer = document.getElementById("billItemsContainer");
+  const btnAddBillItem = document.getElementById("btnAddBillItem");
+  const saveBillBtn = document.getElementById("saveBillBtn");
+  
+  // Input fields for calculation
+  const billDiscount = document.getElementById("billDiscount");
+  const billDeliveryFee = document.getElementById("billDeliveryFee");
+  
+  // Total labels
+  const lblBillSubtotal = document.getElementById("lblBillSubtotal");
+  const lblBillDiscount = document.getElementById("lblBillDiscount");
+  const lblBillDelivery = document.getElementById("lblBillDelivery");
+  const lblBillTax = document.getElementById("lblBillTax");
+  const lblBillGrandTotal = document.getElementById("lblBillGrandTotal");
+  
+  let catalogProducts = []; // To store active products list
+
+  // Open Direct Bill Modal
+  if (openAddBillModalBtn) {
+    openAddBillModalBtn.addEventListener("click", async () => {
+      adminBillForm.reset();
+      billItemsContainer.innerHTML = "";
+      
+      // Load products list from database
+      try {
+        catalogProducts = await getProducts();
+      } catch (err) {
+        console.error("Failed to load products:", err);
+      }
+      
+      // Set default delivery charges from settings
+      try {
+        const settings = await getSettings();
+        if (settings && billDeliveryFee) {
+          billDeliveryFee.value = settings.delivery_fee || 0;
+        }
+      } catch (err) {
+        console.error("Failed to load settings:", err);
+      }
+
+      // Add one default item row
+      addBillItemRow();
+      
+      // Open modal
+      adminBillModal.classList.add("open");
+      adminOverlay.classList.add("open");
+      
+      calculateBillTotals();
+    });
+  }
+
+  // Close Direct Bill Modal
+  if (closeAdminBillModalBtn) {
+    closeAdminBillModalBtn.addEventListener("click", () => {
+      adminBillModal.classList.remove("open");
+      adminOverlay.classList.remove("open");
+    });
+  }
+
+  // Add Item Row Function
+  function addBillItemRow() {
+    const row = document.createElement("div");
+    row.className = "bill-item-row";
+    
+    // Product dropdown options HTML
+    let productOptionsHTML = `<option value="" disabled selected>Select Product...</option>`;
+    catalogProducts.forEach(prod => {
+      productOptionsHTML += `<option value="${prod.id}" data-price="${prod.price}" data-category="${prod.category}">${prod.name} (₹${prod.price})</option>`;
+    });
+    
+    row.innerHTML = `
+      <div style="flex: 2;">
+        <select class="form-control bill-item-product" required style="width: 100%;">
+          ${productOptionsHTML}
+        </select>
+      </div>
+      <div style="flex: 0.8;">
+        <input type="number" class="form-control bill-item-qty" placeholder="Qty" value="1" min="1" required style="text-align: center; width: 100%;">
+      </div>
+      <div style="flex: 1;">
+        <input type="number" class="form-control bill-item-price" placeholder="Price" min="0" required style="text-align: right; width: 100%;">
+      </div>
+      <button type="button" class="btn-remove-bill-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+      </button>
+    `;
+    
+    const prodSelect = row.querySelector(".bill-item-product");
+    const qtyInput = row.querySelector(".bill-item-qty");
+    const priceInput = row.querySelector(".bill-item-price");
+    const removeBtn = row.querySelector(".btn-remove-bill-item");
+    
+    // Auto fill price when product is selected
+    prodSelect.addEventListener("change", (e) => {
+      const selectedOption = prodSelect.options[prodSelect.selectedIndex];
+      const price = selectedOption.getAttribute("data-price");
+      priceInput.value = price;
+      calculateBillTotals();
+    });
+    
+    // Trigger total calculation on quantity or price input
+    qtyInput.addEventListener("input", calculateBillTotals);
+    priceInput.addEventListener("input", calculateBillTotals);
+    
+    // Remove Row
+    removeBtn.addEventListener("click", () => {
+      row.remove();
+      // Ensure we always have at least one row
+      if (billItemsContainer.children.length === 0) {
+        addBillItemRow();
+      }
+      calculateBillTotals();
+    });
+    
+    billItemsContainer.appendChild(row);
+    validateBillForm();
+  }
+
+  if (btnAddBillItem) {
+    btnAddBillItem.addEventListener("click", addBillItemRow);
+  }
+
+  // Calculate Bill Totals
+  function calculateBillTotals() {
+    let subtotal = 0;
+    const rows = billItemsContainer.querySelectorAll(".bill-item-row");
+    
+    rows.forEach(row => {
+      const prodSelect = row.querySelector(".bill-item-product");
+      const qtyInput = row.querySelector(".bill-item-qty");
+      const priceInput = row.querySelector(".bill-item-price");
+      
+      const qty = parseInt(qtyInput.value) || 0;
+      const price = parseFloat(priceInput.value) || 0;
+      
+      if (prodSelect.value) {
+        subtotal += qty * price;
+      }
+    });
+    
+    const discountVal = parseFloat(billDiscount.value) || 0;
+    const deliveryVal = parseFloat(billDeliveryFee.value) || 0;
+    
+    // Taxes (5% GST of net subtotal after discount)
+    const netSubtotal = Math.max(0, subtotal - discountVal);
+    const taxVal = parseFloat((netSubtotal * 0.05).toFixed(2));
+    
+    const grandTotalVal = netSubtotal + deliveryVal + taxVal;
+    
+    // Update labels
+    if (lblBillSubtotal) lblBillSubtotal.textContent = `₹${subtotal.toFixed(2)}`;
+    if (lblBillDiscount) lblBillDiscount.textContent = `-₹${discountVal.toFixed(2)}`;
+    if (lblBillDelivery) lblBillDelivery.textContent = `₹${deliveryVal.toFixed(2)}`;
+    if (lblBillTax) lblBillTax.textContent = `₹${taxVal.toFixed(2)}`;
+    if (lblBillGrandTotal) lblBillGrandTotal.textContent = `₹${grandTotalVal.toFixed(2)}`;
+    
+    validateBillForm();
+  }
+
+  // Input listeners for discount & delivery fee
+  if (billDiscount) billDiscount.addEventListener("input", calculateBillTotals);
+  if (billDeliveryFee) billDeliveryFee.addEventListener("input", calculateBillTotals);
+
+  // Validate form fields to enable submit button
+  function validateBillForm() {
+    const custNameField = document.getElementById("billCustName");
+    const custPhoneField = document.getElementById("billCustPhone");
+    
+    const custName = custNameField ? custNameField.value.trim() : "";
+    const custPhone = custPhoneField ? custPhoneField.value.trim() : "";
+    
+    let hasItems = false;
+    const rows = billItemsContainer.querySelectorAll(".bill-item-row");
+    rows.forEach(row => {
+      const prodSelect = row.querySelector(".bill-item-product");
+      if (prodSelect && prodSelect.value) hasItems = true;
+    });
+    
+    if (saveBillBtn) {
+      if (custName && custPhone && hasItems) {
+        saveBillBtn.disabled = false;
+      } else {
+        saveBillBtn.disabled = true;
+      }
+    }
+  }
+
+  // Hook input events on customer name & phone for live validation
+  document.getElementById("billCustName")?.addEventListener("input", validateBillForm);
+  document.getElementById("billCustPhone")?.addEventListener("input", validateBillForm);
+
+  // Save Direct Bill Order
+  if (saveBillBtn) {
+    saveBillBtn.addEventListener("click", async () => {
+      const custName = document.getElementById("billCustName").value.trim();
+      const custPhone = document.getElementById("billCustPhone").value.trim();
+      const custAddress = document.getElementById("billCustAddress").value.trim();
+      const deliveryDate = document.getElementById("billDeliveryDate").value || null;
+      const deliveryTime = document.getElementById("billDeliveryTime").value.trim();
+      const notes = document.getElementById("billNotes").value.trim();
+      
+      const discountVal = parseFloat(billDiscount.value) || 0;
+      const deliveryVal = parseFloat(billDeliveryFee.value) || 0;
+      
+      // Compile order items array
+      const items = [];
+      let subtotal = 0;
+      const rows = billItemsContainer.querySelectorAll(".bill-item-row");
+      
+      rows.forEach(row => {
+        const prodSelect = row.querySelector(".bill-item-product");
+        const qtyInput = row.querySelector(".bill-item-qty");
+        const priceInput = row.querySelector(".bill-item-price");
+        
+        if (prodSelect.value) {
+          const selectedOption = prodSelect.options[prodSelect.selectedIndex];
+          const prodId = prodSelect.value;
+          const prodName = selectedOption.textContent.split(" (₹")[0];
+          const prodCategory = selectedOption.getAttribute("data-category") || "Others";
+          const qty = parseInt(qtyInput.value) || 1;
+          const price = parseFloat(priceInput.value) || 0;
+          
+          items.push({
+            id: prodId,
+            name: prodName,
+            category: prodCategory,
+            price: price,
+            qty: qty,
+            customised: false
+          });
+          subtotal += qty * price;
+        }
+      });
+      
+      const netSubtotal = Math.max(0, subtotal - discountVal);
+      const taxVal = parseFloat((netSubtotal * 0.05).toFixed(2));
+      const grandTotalVal = netSubtotal + deliveryVal + taxVal;
+      
+      const orderPayload = {
+        cust_name: custName,
+        cust_phone: custPhone,
+        cust_address: custAddress,
+        delivery_date: deliveryDate,
+        delivery_time: deliveryTime,
+        notes: notes,
+        items: items,
+        subtotal: subtotal,
+        discount: discountVal,
+        delivery_fee: deliveryVal,
+        tax: taxVal,
+        grand_total: grandTotalVal
+      };
+
+      try {
+        saveBillBtn.disabled = true;
+        saveBillBtn.textContent = "Saving Bill...";
+        
+        const res = await createOrder(orderPayload);
+        
+        showAdminToast("Bill generated successfully!");
+        
+        // Close modal
+        adminBillModal.classList.remove("open");
+        adminOverlay.classList.remove("open");
+        
+        // Refresh orders table
+        await renderAdminOrders(orderSearchInput.value);
+        
+        // Instantly trigger print slip
+        if (res && res.ref_id) {
+          await window.printAdminOrderSlip(res.ref_id);
+        }
+      } catch (err) {
+        console.error("Failed to generate bill:", err);
+        showAdminToast("Failed to generate bill: " + err.message, "error");
+      } finally {
+        if (saveBillBtn) {
+          saveBillBtn.disabled = false;
+          saveBillBtn.textContent = "Generate & Print Bill";
+        }
+      }
+    });
+  }
+
   checkAuth();
 }
