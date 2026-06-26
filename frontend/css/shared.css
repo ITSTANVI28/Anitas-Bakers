@@ -136,3 +136,50 @@ button, input, select, textarea {
   clip: rect(0, 0, 0, 0);
   border: 0;
 }
+
+/* --- Premium Shared Buttons --- */
+.btn {
+  display: inline-block;
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: var(--border-radius-lg);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  border: none;
+  text-align: center;
+  user-select: none;
+}
+
+.btn-primary {
+  background-color: var(--text-cocoa);
+  color: var(--bg-cream);
+  box-shadow: 0 8px 24px rgba(44, 26, 17, 0.12);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--accent-gold);
+  color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(128, 98, 43, 0.25);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--text-cocoa);
+  border: 2px solid var(--text-cocoa);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: rgba(44, 26, 17, 0.05);
+  transform: translateY(-2px);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  background-color: #d1c7bd !important;
+  color: #8c7e74 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}

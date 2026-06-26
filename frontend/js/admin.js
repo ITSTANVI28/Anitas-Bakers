@@ -366,7 +366,23 @@ if (document.getElementById("adminLockScreen")) {
     uploadPreviewImg.src = "";
     uploadPlaceholder.style.display = "block";
     uploadPreviewContainer.style.display = "none";
+    validateProductForm();
   });
+
+  // --- Product Form Validation ---
+  function validateProductForm() {
+    const isNameValid = prodName.value.trim() !== "";
+    const isCategoryValid = prodCategory.value !== "";
+    const isPriceValid = prodPrice.value.trim() !== "" && parseFloat(prodPrice.value) >= 0;
+    const isDescValid = prodDesc.value.trim() !== "";
+    
+    saveProductBtn.disabled = !(isNameValid && isCategoryValid && isPriceValid && isDescValid);
+  }
+
+  prodName.addEventListener("input", validateProductForm);
+  prodCategory.addEventListener("change", validateProductForm);
+  prodPrice.addEventListener("input", validateProductForm);
+  prodDesc.addEventListener("input", validateProductForm);
 
   openAddProductModalBtn.addEventListener("click", () => {
     productForm.reset();
@@ -379,6 +395,7 @@ if (document.getElementById("adminLockScreen")) {
     
     productModal.classList.add("open");
     adminOverlay.classList.add("open");
+    validateProductForm();
   });
 
   window.openEditProductModal = async function(productId) {
@@ -404,6 +421,7 @@ if (document.getElementById("adminLockScreen")) {
       productModalTitle.textContent = "Edit Product Details";
       productModal.classList.add("open");
       adminOverlay.classList.add("open");
+      validateProductForm();
     } catch (err) {
       console.error(err);
     }
@@ -660,6 +678,17 @@ if (document.getElementById("adminLockScreen")) {
     }
   };
 
+  // --- Promo Form Validation ---
+  function validatePromoForm() {
+    const isCodeValid = promoCode.value.trim() !== "";
+    const isDiscountValid = promoDiscount.value.trim() !== "" && parseInt(promoDiscount.value) >= 1 && parseInt(promoDiscount.value) <= 100;
+    
+    savePromoBtn.disabled = !(isCodeValid && isDiscountValid);
+  }
+
+  promoCode.addEventListener("input", validatePromoForm);
+  promoDiscount.addEventListener("input", validatePromoForm);
+
   openAddPromoModalBtn.addEventListener("click", () => {
     promoForm.reset();
     editPromoId.value = "";
@@ -667,6 +696,7 @@ if (document.getElementById("adminLockScreen")) {
     
     promoModal.classList.add("open");
     adminOverlay.classList.add("open");
+    validatePromoForm();
   });
 
   window.openEditPromoModal = async function(promoId) {
@@ -683,6 +713,7 @@ if (document.getElementById("adminLockScreen")) {
       promoModalTitle.textContent = "Edit Promo Code Details";
       promoModal.classList.add("open");
       adminOverlay.classList.add("open");
+      validatePromoForm();
     } catch (err) {
       console.error(err);
     }

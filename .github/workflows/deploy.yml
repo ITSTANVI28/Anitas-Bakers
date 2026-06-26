@@ -1,0 +1,36 @@
+name: Deploy to Friend's Laptop
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy Web Code to Local XAMPP
+    runs-on: self-hosted  # Runs on your friend's laptop runner
+    
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Step 2: Copy Frontend files to XAMPP htdocs
+      - name: Deploy Frontend to XAMPP
+        run: |
+          $targetPath = "C:\xampp\htdocs\anitas-bakers"
+          if (!(Test-Path $targetPath)) {
+            New-Item -ItemType Directory -Force -Path $targetPath
+          }
+          Copy-Item -Path "frontend\*" -Destination $targetPath -Recurse -Force
+        shell: powershell
+
+      # Step 3: Copy Backend files to XAMPP API
+      - name: Deploy Backend to XAMPP
+        run: |
+          $targetPath = "C:\xampp\htdocs\anitas-bakers-api"
+          if (!(Test-Path $targetPath)) {
+            New-Item -ItemType Directory -Force -Path $targetPath
+          }
+          Copy-Item -Path "backend\*" -Destination $targetPath -Recurse -Force
+        shell: powershell

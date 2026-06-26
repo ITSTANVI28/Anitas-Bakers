@@ -120,10 +120,17 @@ select.form-control {
   gap: 12px;
   cursor: pointer;
 }
+.form-group label.toggle-switch-container {
+  display: flex;
+}
+.form-group label.toggle-switch-container span {
+  color: inherit;
+}
 .toggle-checkbox {
   display: none;
 }
 .toggle-switch {
+  display: inline-block;
   width: 44px;
   height: 24px;
   background: #ccc;
