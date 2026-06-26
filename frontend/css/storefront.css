@@ -1076,20 +1076,21 @@ nav ul li a:hover::after {
 }
 
 .cake-stand {
-  width: 170px;
-  height: 12px;
-  background: linear-gradient(to right, #E5E5E5, #B0B0B0, #E5E5E5);
-  border-radius: 5px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  width: 180px;
+  height: 14px;
+  background: linear-gradient(to right, #f3e5ab, #d4af37, #f3e5ab);
+  border-radius: 50% / 6px;
+  box-shadow: 0 4px 10px rgba(44, 26, 17, 0.22);
   z-index: 1;
+  position: relative;
 }
 
 .cake-stand-base {
   width: 50px;
-  height: 20px;
-  background: linear-gradient(to right, #CCCCCC, #999999, #CCCCCC);
+  height: 24px;
+  background: linear-gradient(to right, #b8860b, #d4af37, #b8860b);
   clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
-  margin-top: -2px;
+  margin-top: -8px;
   z-index: 0;
 }
 
@@ -1098,16 +1099,16 @@ nav ul li a:hover::after {
   flex-direction: column-reverse;
   align-items: center;
   width: 100%;
-  margin-bottom: -4px;
+  margin-bottom: -5px;
   z-index: 2;
 }
 
 .cake-visual-tier {
-  height: 38px;
-  border-radius: 50px / 18px;
+  height: 48px;
+  border-radius: 50% / 15px;
   position: relative;
-  margin-top: -12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+  margin-top: -24px;
+  box-shadow: 0 8px 16px rgba(44, 26, 17, 0.18);
   transition: var(--transition-smooth);
   display: flex;
   align-items: center;
@@ -1132,63 +1133,81 @@ nav ul li a:hover::after {
   }
 }
 
+/* 3D Top Frosting Surface */
+.cake-visual-tier::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 16px;
+  background: inherit;
+  filter: brightness(1.15) saturate(1.1);
+  border-radius: 50%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.3);
+  z-index: 3;
+}
+
+/* 3D Cylindrical Shading Overlay */
+.cake-visual-tier::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, 
+    rgba(0, 0, 0, 0.32) 0%, 
+    rgba(255, 255, 255, 0.15) 25%, 
+    rgba(255, 255, 255, 0) 50%, 
+    rgba(0, 0, 0, 0.42) 100%);
+  border-radius: 50% / 15px;
+  pointer-events: none;
+  z-index: 2;
+}
+
 .tier-chocolate {
-  background: linear-gradient(135deg, #4A2E1B 0%, #2A170B 100%);
-  border: 2px solid #5C3A21;
+  background: #5C3D2E;
+  border: 1px solid #4E3224;
 }
 .tier-red-velvet {
-  background: linear-gradient(135deg, #A61C2E 0%, #6E0D1B 100%);
-  border: 2px solid #BC2A3D;
+  background: #A61C2E;
+  border: 1px solid #8C1422;
 }
 .tier-butterscotch {
-  background: linear-gradient(135deg, #EAA63F 0%, #B27014 100%);
-  border: 2px solid #F5B95F;
+  background: #EAA63F;
+  border: 1px solid #CC8C2B;
 }
 .tier-pineapple {
-  background: linear-gradient(135deg, #F9DC5C 0%, #D4A90C 100%);
-  border: 2px solid #FBE178;
+  background: #F9DC5C;
+  border: 1px solid #DFBE3D;
 }
 .tier-hazelnut {
-  background: linear-gradient(135deg, #8E6E53 0%, #573E2B 100%);
-  border: 2px solid #A28266;
+  background: #9A7B66;
+  border: 1px solid #82634E;
 }
 
 /* --- Custom Frosting Colors Override --- */
 .frosting-pink {
-  background: linear-gradient(135deg, #FFB7B2 0%, #FF85A1 100%) !important;
-  border-color: #FFA6C9 !important;
+  background: #FF9EAA !important;
 }
 .frosting-white {
-  background: linear-gradient(135deg, #FFF9F2 0%, #EFE5D8 100%) !important;
-  border-color: #E8DCCB !important;
+  background: #FFFDF9 !important;
 }
 .frosting-blue {
-  background: linear-gradient(135deg, #B5E2FA 0%, #85C7F2 100%) !important;
-  border-color: #9AD1F5 !important;
+  background: #A2D2FF !important;
 }
 .frosting-yellow {
-  background: linear-gradient(135deg, #FFE5B4 0%, #FFCC80 100%) !important;
-  border-color: #FFDEAB !important;
+  background: #FFD166 !important;
 }
 .frosting-green {
-  background: linear-gradient(135deg, #C7F9CC 0%, #80ED99 100%) !important;
-  border-color: #A3F7B5 !important;
-}
-
-.cake-visual-tier::after {
-  content: '';
-  position: absolute;
-  top: 4px;
-  left: 10%;
-  right: 10%;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.4);
-  border-radius: 50%;
+  background: #B5E2B0 !important;
 }
 
 .cake-icing-message {
   position: absolute;
-  top: 8px;
+  top: 2px;
   width: 90%;
   text-align: center;
   font-family: var(--font-cursive);
